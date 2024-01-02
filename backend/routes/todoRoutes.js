@@ -13,15 +13,15 @@ const router = express.Router()
 router.get('/', getTodos)
 
 // GET single todo
-router.get('/', getTodo)
+router.get('/:id', getTodo)
 
 // POST a new todo
 router.post('/', createTodo)
 
 // DELETE a todo
-router.delete('/', deleteTodo)
+router.delete('/:id', deleteTodo)
 
 // UPDATE a todo
-router.update('/', updateTodo)
+router.patch('/:id', updateTodo)
 
 module.exports = router

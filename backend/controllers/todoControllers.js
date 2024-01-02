@@ -1,4 +1,4 @@
-const Todo = require('../models/models')
+const Todo = require('../models/todoModels')
 const mongoose = require('mongoose')
 
 // get all todo items
@@ -31,7 +31,7 @@ const createTodo = async (req, res) => {
     // add to database
     try{
         const todo = await Todo.create({title})
-        res.status(200).json(workout)
+        res.status(200).json(todo)
     } catch (error) {
         res.status(400).json({error: error.message})
     }

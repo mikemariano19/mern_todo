@@ -8,7 +8,7 @@ const todoRoutes = require('./routes/todoRoutes')
 const app = express()
 
 // middleware
-// app.use(express.json())
+app.use(express.json())
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
@@ -24,7 +24,7 @@ app.use((req, res, next) =>{
 // })
 
 // routes
-app.use('/', todoRoutes)
+app.use('/api/todos', todoRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
@@ -33,8 +33,8 @@ mongoose.connect(process.env.MONGO_URI)
             console.log('connected to db & listening on port ', process.env.PORT)
         })
     })
-    .catch((error) => {
-        console.log(error)
+    .catch((err) => {
+        console.log(err)
     })
 
     // app.listen(process.env.PORT, () => {
