@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import AddIcon from '@mui/icons-material/Add';
-import { red } from '@mui/material/colors';
 
 const styles = styled.button`
   background-color" 'red'
@@ -15,7 +13,7 @@ const styles = styled.button`
 const input = () => {
   return (
         <Grid container spacing={0} >
-          <Grid item xs={10} md={10} sx={{mb: 0}}>
+          <Grid item xs={10} md={10} sx={{mt: 0, pt: 0}}>
               <TextField
                 id="standard-password-input"
                 label="ADD TASK"
@@ -42,6 +40,7 @@ const input = () => {
             <Button variant="contained" color="primary" 
             sx={{
               p: 2,
+              width: '100%'
             }}
             >
               ADD TASK
