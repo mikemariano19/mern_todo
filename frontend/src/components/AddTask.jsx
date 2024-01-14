@@ -12,7 +12,7 @@ const styles = styled.button`
 
 const input = () => {
   return (
-        <Grid container spacing={0} >
+        <Grid container spacing={0} sx={{mb: 3}}>
           <Grid item xs={10} md={10} sx={{mt: 0, pt: 0}}>
               <TextField
                 id="standard-password-input"
