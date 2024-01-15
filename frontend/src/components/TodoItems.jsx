@@ -9,7 +9,7 @@ import { Box } from '@mui/system';
 import { useState } from 'react';
 
 const CheckboxLine = styled.span`
-  ${({ isChecked }) => isChecked && 'text-decoration: line-though'}
+  ${({ isChecked }) => isChecked && 'text-decoration: line-through;'}
 `
 const TodoItems = () => {
 
@@ -17,23 +17,17 @@ const TodoItems = () => {
   const handleChange = () => {
     setIsChecked(!isChecked)
     console.log('Checked')
-    // if (checked) {
-    //   span.innerHTML = 'checked="checked"'
-    // } else {
-    //   span.innerHTML = 'unchecked="checked"'
-    // }
   }
 
   return (
     <Grid container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
       <Box sx={{display: 'flex'}}>
-        <CheckboxLine>
-          <Checkbox className='CheckboxLine' checked={isChecked} onChange={handleChange}  sx={{pr: 1,}} />
-              {isChecked ? 'isChecked' : '!isChecked'}
-        </CheckboxLine>
+          <Checkbox onChange={handleChange}  sx={{pr: 1,}} />
         <Box>
-          <Typography checked={isChecked} sx={{fontSize: 20}}>
-            <span>Code</span>
+          <Typography sx={{fontSize: 20}}>
+            <CheckboxLine isChecked={isChecked}>
+                <span>Code</span>
+            </CheckboxLine>
           </Typography>
           <Typography sx={{fontSize: 12, color: 'text.secondary'}}>1/14/2024</Typography>
         </Box>
