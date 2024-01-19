@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import { IconButton, Typography } from '@mui/material';
@@ -8,15 +7,18 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
 import { useState } from 'react';
 
-const CheckboxLine = styled.span`
-  ${({ isChecked }) => isChecked && 'text-decoration: line-through;'}
-`
-const TodoItems = () => {
 
+const CheckboxLine = ({ isChecked, children }) => (
+  <span style={{ textDecoration: isChecked ? 'line-through' : 'none' }}>
+    {children}
+  </span>
+);
+
+const TodoItems = () => {
   const [isChecked, setIsChecked] = useState(false)
+
   const handleChange = () => {
     setIsChecked(!isChecked)
-    console.log('Checked')
   }
 
   return (

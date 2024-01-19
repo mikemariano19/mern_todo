@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import axios from 'axios'
 import { useState } from 'react'
 
@@ -23,9 +22,11 @@ const input = () => {
     e.preventDefault()
   
     const todos = { title }
+
+    let response
   
     try{
-      const response = await axios.post('http://localhost:4001/api/todos/', todos, {
+      response = await axios.post('http://localhost:4001/api/todos/', todos, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -34,14 +35,15 @@ const input = () => {
       setEmptyField([])
       setError(null)
       setTitle('')
-      
+      console.log(response.data)
     } catch(e){
-  
+      setError(error.response.data.error)
+      setEmptyField(error.response)
     }
   
   }
   return (
-        <form action="" onChange={handleSubmit}>
+        <form action="" onSubmit={handleSubmit}>
           <Grid container spacing={0} sx={{mb: 3}}>
             <Grid item xs={10} md={10} sx={{mt: 0, pt: 0}}>
                 <TextField
@@ -57,7 +59,7 @@ const input = () => {
                 />
             </Grid>
             <Grid item xs={2} display={{xs: 'block', md: 'none'}} >
-              <Button variant="contained" color="primary" startIcon={<AddIcon />}
+              <Button type='submit' variant="contained" color="primary" startIcon={<AddIcon />}
               sx={{
                 p: 2,
                 pl: 3.5,
