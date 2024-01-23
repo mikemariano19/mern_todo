@@ -21,12 +21,12 @@ const input = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
   
-    const todos = { title }
+    const todo = { title }
 
     let response
   
     try{
-      response = await axios.post('http://localhost:4001/api/todos/', todos, {
+      response = await axios.post('http://localhost:4001/api/todos/', todo, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -35,10 +35,11 @@ const input = () => {
       setEmptyField([])
       setError(null)
       setTitle('')
-      console.log(response.data)
+      console.log('New todo added:', response.data)
     } catch(e){
-      setError(error.response.data.error)
-      setEmptyField(error.response)
+      setError(error.data.error)
+      setEmptyField(error.response.data.emptyField)
+      console.log(error.response.data)
     }
   
   }

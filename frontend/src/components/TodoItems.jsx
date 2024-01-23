@@ -1,4 +1,7 @@
 import React from 'react'
+
+
+// mui component
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import { IconButton, Typography } from '@mui/material';
@@ -7,6 +10,8 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
 import { useState } from 'react';
 
+// Date-fns
+import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 
 const CheckboxLine = ({ isChecked, children }) => (
   <span style={{ textDecoration: isChecked ? 'line-through' : 'none' }}>
@@ -22,16 +27,18 @@ const TodoItems = () => {
   }
 
   return (
-    <Grid container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
+    <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
       <Box sx={{display: 'flex'}}>
           <Checkbox onChange={handleChange}  sx={{pr: 1,}} />
         <Box>
           <Typography sx={{fontSize: 20}}>
             <CheckboxLine isChecked={isChecked}>
-                <span>Code</span>
+                <span>{TodoItems.title}</span>
             </CheckboxLine>
           </Typography>
-          <Typography sx={{fontSize: 12, color: 'text.secondary'}}>1/14/2024</Typography>
+          <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
+            {/* <p>{formatDistanceToNow(new Date(TodoItems.createdAt), { addSuffix: true })}</p> */}
+          </Typography>
         </Box>
       </Box>
       <Box sx={{my: 'auto'}}>
