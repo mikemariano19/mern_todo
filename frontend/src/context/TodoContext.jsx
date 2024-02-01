@@ -1,44 +1,36 @@
-import React, { createContext, useReducer } from 'react'
+import { createContext, useReducer } from 'react'
 
-export const TodoContext = createContext()
+ export const TodosContext = createContext()
 
-const todosReducer = (state, action) => {
+export const todosReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_TODO':
+    case 'SET_TODOS':
       return {
         todos: action.payload
       }
     case 'CREATE_TODO':
-    return {
-      todos: action.payload
-      }
+      return { 
+        todos: [action.payload, ...state.todos]
+        }
     case 'DELETE_TODO':
       return {
-        todos: action.payload
+        todos: state.todos.filter(t => t._id !== action.payload._id)
       }
-    case 'EDIT_TODO':
-      return {
-        todos: action.payload
-      }
-      default:
-        return state
+    default:
+      return state
   }
 }
 
- export const TodosContextProvider = () => {
-  const [state, dispatch] = useReducer(workoutsReducer, {
+ export const TodosContextProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(todosReducer, {
     workout: null
   })
 
-
   return (
-    <TodoContext.Provider value={{ ...state, dispatch }}>
+    <TodosContext.Provider value={{ ...state, dispatch }}>
       { children }
-    </TodoContext.Provider>
+    </TodosContext.Provider>
   )
  }
 
  
-
-
-export default TodoContext

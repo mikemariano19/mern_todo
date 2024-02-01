@@ -11,9 +11,7 @@ import Header from './components/Header';
 
 
 function App() {
-
   
-
   return (
     <Container  maxWidth="md" sx={{mx: 'auto', px: 0}}>
       <Header />

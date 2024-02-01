@@ -36,7 +36,8 @@ const input = () => {
       setError(null)
       setTitle('')
       console.log('New todo added:', response.data)
-    } catch(e){
+      dispatch({type: 'CREATE_TODO', payload: response.data})
+    } catch(error){
       setError(error.data.error)
       setEmptyField(error.response.data.emptyField)
       console.log(error.response.data)

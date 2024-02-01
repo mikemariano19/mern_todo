@@ -1,4 +1,7 @@
 import React from 'react'
+import { useTodosContext } from '../hooks/useTodosContext'
+import { useState } from 'react';
+import axios from 'axios';
 
 
 // mui component
@@ -8,10 +11,9 @@ import { IconButton, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
-import { useState } from 'react';
 
 // Date-fns
-import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
+// import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 
 const CheckboxLine = ({ isChecked, children }) => (
   <span style={{ textDecoration: isChecked ? 'line-through' : 'none' }}>
@@ -19,21 +21,35 @@ const CheckboxLine = ({ isChecked, children }) => (
   </span>
 );
 
-const TodoItems = () => {
-  const [isChecked, setIsChecked] = useState(false)
+const TodoItems = ({ todo }) => {
+  const { dispatch } = useTodosContext();
 
-  const handleChange = () => {
+  const [isChecked, setIsChecked] = useState(false)
+  
+  const handleChange = async () => {
     setIsChecked(!isChecked)
   }
+  const handleClick = async () => {
+    try {
+      const response = await axios.delete('http://localhost:4001/api/todos/' + todo._id)
+      if(response.status === 200) {
+        dispatch({ type: 'DELETE_WORKOUT', payload: response.data })
+      }
+    } catch (error) {
+      console.log('Error deleting data:', error)
+  }
+}
+
 
   return (
     <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
       <Box sx={{display: 'flex'}}>
-          <Checkbox onChange={handleChange}  sx={{pr: 1,}} />
         <Box>
           <Typography sx={{fontSize: 20}}>
             <CheckboxLine isChecked={isChecked}>
-                <span>{TodoItems.title}</span>
+              <Checkbox onChange={handleChange} sx={{pr: 1}} />
+                <span>Code{todo}</span>
+                
             </CheckboxLine>
           </Typography>
           <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
@@ -42,7 +58,7 @@ const TodoItems = () => {
         </Box>
       </Box>
       <Box sx={{my: 'auto'}}>
-        <IconButton>
+        <IconButton onClick={handleClick}>
           <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
         </IconButton>
         <IconButton>
