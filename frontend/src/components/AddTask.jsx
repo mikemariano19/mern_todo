@@ -38,7 +38,7 @@ const input = () => {
       console.log('New todo added:', response.data)
       dispatch({type: 'CREATE_TODO', payload: response.data})
     } catch(error){
-      setError(error.data.error)
+      setError(error.data)
       setEmptyField(error.response.data.emptyField)
       console.log(error.response.data)
     }
@@ -51,6 +51,7 @@ const input = () => {
                 <TextField
                   onChange={(e) => setTitle(e.target.value)}
                   value={title}
+                  name={'addtask'}
                   label="ADD TASK"
                   type="text"
                   variant="standard"

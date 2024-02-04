@@ -5,6 +5,7 @@ import axios from 'axios'
 // components
 import TodoItems from '../components/TodoItems'
 import AddTask from '../components/AddTask'
+import { Box } from '@mui/material'
 
 const Home = () => {
     const { todos, dispatch } = useTodosContext()
@@ -26,13 +27,15 @@ const Home = () => {
     }, [dispatch])
 
   return (
-      <Box>
+    <Box>
         <Box>
             <AddTask/>
         </Box>
-        {Array.isArray(todos) && todos.map((todos) => (
-            <TodoItems key={todos._id} todos={todos}/>
-        ))}
+        <Box>
+            {Array.isArray(todos) && todos.map((todos) => (
+                <TodoItems key={todos._id} todos={todos}/>
+            ))}
+        </Box>
     </Box>
   )
 }

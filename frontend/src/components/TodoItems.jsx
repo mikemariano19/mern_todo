@@ -48,7 +48,7 @@ const TodoItems = ({ todo }) => {
           <Typography sx={{fontSize: 20}}>
             <CheckboxLine isChecked={isChecked}>
               <Checkbox onChange={handleChange} sx={{pr: 1}} />
-                <span>Code{todo}</span>
+                <span>{todo}</span>
                 
             </CheckboxLine>
           </Typography>
