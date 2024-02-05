@@ -1,7 +1,7 @@
 import React from 'react'
-import { useTodosContext } from '../hooks/useTodosContext'
 import { useState } from 'react';
 import axios from 'axios';
+import { useTodosContext } from '../hooks/useTodosContext'
 
 
 // mui component
@@ -49,7 +49,6 @@ const TodoItems = ({ todo }) => {
             <CheckboxLine isChecked={isChecked}>
               <Checkbox onChange={handleChange} sx={{pr: 1}} />
                 <span>{todo}</span>
-                
             </CheckboxLine>
           </Typography>
           <Typography sx={{fontSize: 12, color: 'text.secondary'}}>

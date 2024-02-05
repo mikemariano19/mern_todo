@@ -8,15 +8,17 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import AddIcon from '@mui/icons-material/Add';
+import { useTodosContext } from '../hooks/useTodosContext'
 
 
 
 
 const input = () => {
+  const { dispatch } = useTodosContext()
 
   const [ title, setTitle ] = useState('')
   const [ error, setError ] = useState(null)
-  const [ emptyField, setEmptyField ] = useState([])
+  const [ emptyFields, setEmptyFields ] = useState([])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -32,14 +34,14 @@ const input = () => {
         }
       })
 
-      setEmptyField([])
+      setEmptyFields([])
       setError(null)
       setTitle('')
       console.log('New todo added:', response.data)
       dispatch({type: 'CREATE_TODO', payload: response.data})
     } catch(error){
-      setError(error.data)
-      setEmptyField(error.response.data.emptyField)
+      setError(error.response.data.error)
+      setEmptyFields(error.response.emptysField)
       console.log(error.response.data)
     }
   

@@ -23,7 +23,7 @@ export const todosReducer = (state, action) => {
 
  export const TodosContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(todosReducer, {
-    workout: null
+    todos: null
   })
 
   return (

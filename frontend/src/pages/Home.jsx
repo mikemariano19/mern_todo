@@ -15,7 +15,7 @@ const Home = () => {
             try {
                 const response = await axios.get('http://localhost:4001/api/todos/')
                 console.log(response.data)
-                if(response.statusCode === 200) {
+                if(response.status === 200) {
                     dispatch({type: 'SET_TODOS', payload: response.data})
                 }
             } catch (error) {
@@ -32,8 +32,8 @@ const Home = () => {
             <AddTask/>
         </Box>
         <Box>
-            {Array.isArray(todos) && todos.map((todos) => (
-                <TodoItems key={todos._id} todos={todos}/>
+            {Array.isArray(todos) && todos.map((todo) => (
+                <TodoItems key={todo._id} todo={todo} />
             ))}
         </Box>
     </Box>
