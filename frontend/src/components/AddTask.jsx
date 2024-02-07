@@ -18,7 +18,6 @@ const input = () => {
 
   const [ title, setTitle ] = useState('')
   const [ error, setError ] = useState(null)
-  const [ emptyFields, setEmptyFields ] = useState([])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -34,20 +33,18 @@ const input = () => {
         }
       })
 
-      setEmptyFields([])
       setError(null)
       setTitle('')
       console.log('New todo added:', response.data)
       dispatch({type: 'CREATE_TODO', payload: response.data})
     } catch(error){
       setError(error.response.data.error)
-      setEmptyFields(error.response.emptysField)
       console.log(error.response.data)
     }
   
   }
   return (
-        <form action="" onSubmit={handleSubmit}>
+        <form action="submit" onSubmit={handleSubmit}>
           <Grid container spacing={0} sx={{mb: 3}}>
             <Grid item xs={10} md={10} sx={{mt: 0, pt: 0}}>
                 <TextField
@@ -74,7 +71,7 @@ const input = () => {
               </Button>
             </Grid>
             <Grid item md={2} display={{xs: 'none', md: 'block'}}>
-              <Button variant="contained" color="primary" 
+              <Button variant="contained" type='submit' color="primary" 
               sx={{
                 p: 2,
                 width: '100%'

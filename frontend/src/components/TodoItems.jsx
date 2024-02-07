@@ -13,7 +13,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
 
 // Date-fns
-// import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
+import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 
 const CheckboxLine = ({ isChecked, children }) => (
   <span style={{ textDecoration: isChecked ? 'line-through' : 'none' }}>
@@ -29,16 +29,17 @@ const TodoItems = ({ todo }) => {
   const handleChange = async () => {
     setIsChecked(!isChecked)
   }
-  const handleClick = async () => {
+  const handleDelete = async () => {
     try {
       const response = await axios.delete('http://localhost:4001/api/todos/' + todo._id)
       if(response.status === 200) {
-        dispatch({ type: 'DELETE_WORKOUT', payload: response.data })
+        dispatch({ type: 'DELETE_TODO', payload: response.data })
       }
     } catch (error) {
       console.log('Error deleting data:', error)
   }
 }
+
 
 
   return (
@@ -48,16 +49,16 @@ const TodoItems = ({ todo }) => {
           <Typography sx={{fontSize: 20}}>
             <CheckboxLine isChecked={isChecked}>
               <Checkbox onChange={handleChange} sx={{pr: 1}} />
-                <span>{todo}</span>
+                 <span>{todo.title}</span>
             </CheckboxLine>
           </Typography>
           <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
-            {/* <p>{formatDistanceToNow(new Date(TodoItems.createdAt), { addSuffix: true })}</p> */}
+            {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
           </Typography>
         </Box>
       </Box>
       <Box sx={{my: 'auto'}}>
-        <IconButton onClick={handleClick}>
+        <IconButton onClick={handleDelete}>
           <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
         </IconButton>
         <IconButton>

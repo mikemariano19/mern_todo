@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 
 // get all todo items
 const getTodos = async (req, res) => {
-    const todo = await Todo.find({}).sort({createdAt: -1})
-    res.status(200).json(todo)
+    const todos = await Todo.find({}).sort({createdAt: -1})
+    res.status(200).json(todos)
 }
 
 // get single todo item
