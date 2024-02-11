@@ -11,6 +11,8 @@ import { IconButton, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
+import TextField from '@mui/material/TextField'
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // Date-fns
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
@@ -25,10 +27,13 @@ const TodoItems = ({ todo }) => {
   const { dispatch } = useTodosContext();
 
   const [isChecked, setIsChecked] = useState(false)
+  const [isEditing, setEditing] = useState(false)
+  const [newTitle, setNewTitle] = useState(todo.title)
   
   const handleChange = async () => {
     setIsChecked(!isChecked)
   }
+
   const handleDelete = async () => {
     try {
       const response = await axios.delete('http://localhost:4001/api/todos/' + todo._id)
@@ -40,6 +45,32 @@ const TodoItems = ({ todo }) => {
   }
 }
 
+const toggleEdit = () => {
+  setEditing(!isEditing)
+}
+
+const handleTitleChange = (e) => {
+  setNewTitle(e.target.value)
+}
+
+const handleSubmit = async (e) => {
+  e.preventDefault()
+  try{
+    const response = await axios.patch('http://localhost:4001/api/todos/' + todo._id, 
+      { title: newTitle }
+    )
+
+    if(response.statusCode === 200){
+      dispatch({ type: 'UPDATE_TODO', payload: response.data })
+      toggleEdit()
+    }
+
+  } catch (error) {
+    console.log('Error updating data:', error)
+  }
+
+}
+
 
 
   return (
@@ -47,10 +78,22 @@ const TodoItems = ({ todo }) => {
       <Box sx={{display: 'flex'}}>
         <Box>
           <Typography sx={{fontSize: 20}}>
-            <CheckboxLine isChecked={isChecked}>
-              <Checkbox onChange={handleChange} sx={{pr: 1}} />
-                 <span>{todo.title}</span>
-            </CheckboxLine>
+            {isEditing ? (
+              <form>
+                <TextField
+                  value={newTitle}
+                  onChange={handleTitleChange}
+                  fullWidth
+                />
+              </form>
+            ) : (
+
+              <CheckboxLine isChecked={isChecked}>
+                <Checkbox onChange={handleChange} sx={{pr: 1}} />
+                  <span>{todo.title}</span>
+              </CheckboxLine>
+                )
+            }
           </Typography>
           <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
             {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
@@ -58,11 +101,19 @@ const TodoItems = ({ todo }) => {
         </Box>
       </Box>
       <Box sx={{my: 'auto'}}>
+            {isEditing ? (
+              <IconButton type='submit' onClick={handleSubmit}>
+                <CheckBoxIcon sx={{fontSize: 32, color: '#1976D2'}} />
+              </IconButton>
+            ) : (
+              <IconButton onClick={toggleEdit}>
+          <     BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
+              </IconButton>
+            )
+
+            }
         <IconButton onClick={handleDelete}>
           <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
-        </IconButton>
-        <IconButton>
-          <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
         </IconButton>
       </Box>
     </Grid>
