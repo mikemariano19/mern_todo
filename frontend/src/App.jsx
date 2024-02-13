@@ -12,7 +12,7 @@ import Home from './pages/Home';
 function App() {
   
   return (
-    <Container  maxWidth="md" sx={{mx: 'auto', px: 0}}>
+    <Container  maxWidth="md" sx={{mx: 'auto', px: 0, backgroundColor: 'blue'}}>
       <Header />
       <Home />
     </Container>

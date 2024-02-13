@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, Modal, TextField } from '@mui/material'
 import React from 'react'
 
 const EditModal = () => {
@@ -16,14 +16,14 @@ const EditModal = () => {
 
 
   return (
-    <Box sx={{
+    <Box zIndex={1} sx={{
+      
     }}>
-      <Box zIndex={0} sx={{
+      <Box  sx={{
         display: 'block',
         backgroundColor: '#393943',
         borderRadius: '5px',
         padding: '50px',
-        m: 'auto',
         maxWidth: '300px'
     }}>
         <TextField fullWidth sx={{display: 'block', pb: '5px'}} id="outlined-basic" label="Edit Todo" variant="outlined" />

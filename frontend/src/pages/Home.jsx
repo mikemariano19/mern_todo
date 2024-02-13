@@ -38,9 +38,6 @@ const Home = () => {
             ))}
         </Box>
 
-        <Box>
-            <EditModal></EditModal>
-        </Box>
     </Box>
   )
 }

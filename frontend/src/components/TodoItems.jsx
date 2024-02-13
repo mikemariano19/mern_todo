@@ -2,12 +2,13 @@ import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import { useTodosContext } from '../hooks/useTodosContext'
+import EditModal from '../modal/EditModal';
 
 
 // mui component
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
-import { IconButton, Typography } from '@mui/material';
+import { Button, IconButton, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
@@ -79,15 +80,8 @@ const handleSubmit = async (e) => {
         <Box>
           <Typography sx={{fontSize: 20}}>
             {isEditing ? (
-              <form>
-                <TextField
-                  value={newTitle}
-                  onChange={handleTitleChange}
-                  fullWidth
-                />
-              </form>
+              <EditModal />
             ) : (
-
               <CheckboxLine isChecked={isChecked}>
                 <Checkbox onChange={handleChange} sx={{pr: 1}} />
                   <span>{todo.title}</span>
@@ -102,19 +96,25 @@ const handleSubmit = async (e) => {
       </Box>
       <Box sx={{my: 'auto'}}>
             {isEditing ? (
-              <IconButton type='submit' onClick={handleSubmit}>
-                <CheckBoxIcon sx={{fontSize: 32, color: '#1976D2'}} />
-              </IconButton>
+              <Box sx={{display: 'none'}}>
+                <IconButton onClick={toggleEdit}>
+                  <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
+                </IconButton>
+                <IconButton onClick={handleDelete}>
+                  <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
+                </IconButton>
+              </Box>
             ) : (
-              <IconButton onClick={toggleEdit}>
-          <     BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
-              </IconButton>
+              <Box sx={{display: 'block'}}>
+                <IconButton onClick={toggleEdit}>
+                  <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
+                </IconButton>
+                <IconButton onClick={handleDelete}>
+                  <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
+                </IconButton>
+              </Box>
             )
-
             }
-        <IconButton onClick={handleDelete}>
-          <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
-        </IconButton>
       </Box>
     </Grid>
   )
