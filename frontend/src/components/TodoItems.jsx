@@ -8,12 +8,10 @@ import EditModal from '../modal/EditModal';
 // mui component
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
-import { Button, IconButton, Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
-import TextField from '@mui/material/TextField'
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // Date-fns
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
@@ -29,10 +27,13 @@ const TodoItems = ({ todo }) => {
 
   const [isChecked, setIsChecked] = useState(false)
   const [isEditing, setEditing] = useState(false)
-  const [newTitle, setNewTitle] = useState(todo.title)
-  
+
   const handleChange = async () => {
     setIsChecked(!isChecked)
+  }
+
+  const toggleEdit = () => {
+    setEditing(!isEditing)
   }
 
   const handleDelete = async () => {
@@ -46,48 +47,22 @@ const TodoItems = ({ todo }) => {
   }
 }
 
-const toggleEdit = () => {
-  setEditing(!isEditing)
-}
-
-const handleTitleChange = (e) => {
-  setNewTitle(e.target.value)
-}
-
-const handleSubmit = async (e) => {
-  e.preventDefault()
-  try{
-    const response = await axios.patch('http://localhost:4001/api/todos/' + todo._id, 
-      { title: newTitle }
-    )
-
-    if(response.statusCode === 200){
-      dispatch({ type: 'UPDATE_TODO', payload: response.data })
-      toggleEdit()
-    }
-
-  } catch (error) {
-    console.log('Error updating data:', error)
-  }
-
-}
-
-
-
   return (
     <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
       <Box sx={{display: 'flex'}}>
+        {isEditing  ? (
+          <EditModal todo={todo.title} />
+        ) : (
+          <div>
+            
+          </div>
+        )}
         <Box>
           <Typography sx={{fontSize: 20}}>
-            {isEditing ? (
-              <EditModal />
-            ) : (
-              <CheckboxLine isChecked={isChecked}>
-                <Checkbox onChange={handleChange} sx={{pr: 1}} />
-                  <span>{todo.title}</span>
-              </CheckboxLine>
-                )
-            }
+            <CheckboxLine isChecked={isChecked}>
+              <Checkbox onChange={handleChange} sx={{pr: 1}} />
+                <span>{todo.title}</span>
+            </CheckboxLine>
           </Typography>
           <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
             {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
@@ -95,26 +70,14 @@ const handleSubmit = async (e) => {
         </Box>
       </Box>
       <Box sx={{my: 'auto'}}>
-            {isEditing ? (
-              <Box sx={{display: 'none'}}>
-                <IconButton onClick={toggleEdit}>
-                  <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
-                </IconButton>
-                <IconButton onClick={handleDelete}>
-                  <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
-                </IconButton>
-              </Box>
-            ) : (
-              <Box sx={{display: 'block'}}>
-                <IconButton onClick={toggleEdit}>
-                  <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
-                </IconButton>
-                <IconButton onClick={handleDelete}>
-                  <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
-                </IconButton>
-              </Box>
-            )
-            }
+        <Box sx={{display: 'block'}}>
+          <IconButton onClick={toggleEdit}>
+            <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
+          </IconButton>
+          <IconButton onClick={handleDelete}>
+            <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
+          </IconButton>
+        </Box>
       </Box>
     </Grid>
   )

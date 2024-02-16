@@ -6,7 +6,6 @@ import axios from 'axios'
 import TodoItems from '../components/TodoItems'
 import AddTask from '../components/AddTask'
 import { Box } from '@mui/material'
-import EditModal from '../modal/EditModal'
 
 const Home = () => {
     const { todos, dispatch } = useTodosContext()
