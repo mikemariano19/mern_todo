@@ -11,12 +11,12 @@ export const todosReducer = (state, action) => {
     case 'CREATE_TODO':
       return { 
         todos: [action.payload, ...state.todos]
-        }
+      }
     case 'DELETE_TODO':
       return {
         todos: state.todos.filter(t => t._id !== action.payload._id)
       }
-      case 'UPDATE_TODO':
+    case 'UPDATE_TODO':
       return {
         todos: state.todos.map(todo =>
           todo._id === action.payload._id ? action.payload : todo

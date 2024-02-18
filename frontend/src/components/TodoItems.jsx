@@ -48,15 +48,14 @@ const TodoItems = ({ todo }) => {
 }
 
   return (
+    <Box>
+      {isEditing  ? (
+      <EditModal todo={todo} />
+    ) : (
+      <Box sx={{display: 'none'}}></Box>
+    )}
     <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
       <Box sx={{display: 'flex'}}>
-        {isEditing  ? (
-          <EditModal todo={todo.title} />
-        ) : (
-          <div>
-            
-          </div>
-        )}
         <Box>
           <Typography sx={{fontSize: 20}}>
             <CheckboxLine isChecked={isChecked}>
@@ -80,6 +79,7 @@ const TodoItems = ({ todo }) => {
         </Box>
       </Box>
     </Grid>
+    </Box>
   )
 }
 
