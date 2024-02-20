@@ -33,7 +33,7 @@ const EditModal = ({ todo }) => {
   }
 
   return (
-    <Box zIndex={-1} sx={{display: 'flex', justifyContent: 'center'}}>
+    <Box fullWidth zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center', backgroundColor: 'red'}}>
       <Box  sx={{
         display: 'block',
         backgroundColor: '#393943',
@@ -44,7 +44,7 @@ const EditModal = ({ todo }) => {
         <form onSubmit={handleUpdate}>
           <TextField fullWidth value={newTitle} onChange={handleTitleChange} inputProps={{ maxLength: 20 }} sx={{display: 'block', pb: '5px'}} id="outlined-basic" label="Edit Todo" variant="outlined" />
           <Box sx={{display: 'grid'}}>
-              <Button sx={{my: '10px'}} onClick={handleUpdate} variant="contained">Update</Button>
+              <Button sx={{my: '10px'}} onClick={handleUpdate} type='submit' variant="contained">Update</Button>
               <Button variant="outlined" color="error">Cancel</Button>
           </Box>
         </form>

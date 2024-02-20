@@ -49,36 +49,36 @@ const TodoItems = ({ todo }) => {
 
   return (
     <Box>
-      {isEditing  ? (
-      <EditModal todo={todo} />
-    ) : (
-      <Box sx={{display: 'none'}}></Box>
-    )}
-    <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
-      <Box sx={{display: 'flex'}}>
-        <Box>
-          <Typography sx={{fontSize: 20}}>
-            <CheckboxLine isChecked={isChecked}>
-              <Checkbox onChange={handleChange} sx={{pr: 1}} />
-                <span>{todo.title}</span>
-            </CheckboxLine>
-          </Typography>
-          <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
-            {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
-          </Typography>
+        {isEditing  ? (
+        <EditModal sx={{position: 'absolute'}} todo={todo} />
+      ) : (
+        <Box sx={{display: 'none'}}></Box>
+      )}
+      <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
+        <Box sx={{display: 'flex'}}>
+          <Box>
+            <Typography sx={{fontSize: 20}}>
+              <CheckboxLine isChecked={isChecked}>
+                <Checkbox onChange={handleChange} sx={{pr: 1}} />
+                  <span>{todo.title}</span>
+              </CheckboxLine>
+            </Typography>
+            <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
+              {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
+            </Typography>
+          </Box>
         </Box>
-      </Box>
-      <Box sx={{my: 'auto'}}>
-        <Box sx={{display: 'block'}}>
-          <IconButton onClick={toggleEdit}>
-            <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
-          </IconButton>
-          <IconButton onClick={handleDelete}>
-            <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
-          </IconButton>
+        <Box sx={{my: 'auto'}}>
+          <Box sx={{display: 'block'}}>
+            <IconButton onClick={toggleEdit}>
+              <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
+            </IconButton>
+            <IconButton onClick={handleDelete}>
+              <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
+            </IconButton>
+          </Box>
         </Box>
-      </Box>
-    </Grid>
+      </Grid>
     </Box>
   )
 }
