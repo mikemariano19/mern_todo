@@ -35,8 +35,7 @@ const Home = () => {
             {Array.isArray(todos) && todos.map((todo) => (
                 <TodoItems key={todo._id} todo={todo} />
             ))}
-        </Box>
-
+        </Box> 
     </Box>
   )
 }

@@ -33,7 +33,7 @@ const EditModal = ({ todo }) => {
   }
 
   return (
-    <Box fullWidth zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center', backgroundColor: 'red'}}>
+    <Box zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center', backgroundColor: 'red'}}>
       <Box  sx={{
         display: 'block',
         backgroundColor: '#393943',
