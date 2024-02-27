@@ -7,7 +7,7 @@ import { useTodosContext } from '../hooks/useTodosContext'
 // mui component
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
-import { Button, FormControl, IconButton, Input, TextField, Typography } from '@mui/material';
+import { Button, FormControl, FormGroup, IconButton, Input, TextField, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
@@ -77,11 +77,10 @@ const TodoItems = ({ todo }) => {
       if(newTitle !== todo.title) {
         const isConfirmed = window.confirm(`Do you want to save the changes of ${todo.title} to ${newTitle}`)
         if(isConfirmed) {
-          await handleUpdate()
-          setIsEditing(!isEditing)
+          handleUpdate()
         } if(!isConfirmed) {
           console.log('Cancel updating')
-          setIsEditing(!isEditing) }
+        }
       }
       
     } catch (error) {
@@ -96,21 +95,24 @@ const TodoItems = ({ todo }) => {
     <Box>
       <Box zIndex={5} >
         {isEditing ? (
-          <FormControl onSubmit={handleUpdate} sx={{
+          <form onSubmit={handleUpdate} style={{
             display: 'flex', 
             justifyContent: 'center',
-            backgroundColor: 'blue'}}>
+            backgroundColor: 'blue',
+            
+            }}>
             <Input onSubmit={handleUpdate}
               fullWidth
               value={newTitle}
               onChange={handleTitleChange}
-              onBlur={handleBlur} // Save changes on blur (e.g., when focus is lost)
+              // onBlur={handleBlur} // Save changes on blur (e.g., when focus is lost)
               autoFocus // Automatically focus on the input field when editing starts
               inputRef={inputRef} // Assign the input element reference
               maxLength={20}
-            />
-            <Button onClick={handleUpdate}>Edit</Button>
-          </FormControl>
+            >
+            </Input>
+            <Button type='submit' onClick={handleUpdate}>Done</Button>
+          </form>
         ) : (
           <Box></Box>
         )}
