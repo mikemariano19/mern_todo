@@ -42,7 +42,15 @@ const EditModal = ({ todo }) => {
         maxWidth: '300px'
     }}>
         <form onSubmit={handleUpdate}>
-          <TextField fullWidth value={newTitle} onChange={handleTitleChange} inputProps={{ maxLength: 20 }} sx={{display: 'block', pb: '5px'}} id="outlined-basic" label="Edit Todo" variant="outlined" />
+          <TextField 
+          fullWidth 
+          value={newTitle} 
+          onChange={handleTitleChange} 
+          inputProps={{ maxLength: 20 }} 
+          sx={{display: 'block', pb: '5px', backgroundColor: '#393943'}}
+          id="outlined-basic" 
+          label="Edit Todo" 
+          variant="outlined" />
           <Box sx={{display: 'grid'}}>
               <Button sx={{my: '10px'}} onClick={handleUpdate} type='submit' variant="contained">Update</Button>
               <Button variant="outlined" color="error">Cancel</Button>
