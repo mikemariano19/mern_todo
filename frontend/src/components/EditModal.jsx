@@ -32,6 +32,11 @@ const EditModal = ({ todo }) => {
     setNewTitle(e.target.value)
   }
 
+  const handleCancelEdit = (e) => {
+    setNewTitle(originalTitle)
+    setIsEditing(false)
+  }
+
   return (
     <Box zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center', backgroundColor: 'red'}}>
       <Box  sx={{
@@ -53,7 +58,7 @@ const EditModal = ({ todo }) => {
           variant="outlined" />
           <Box sx={{display: 'grid'}}>
               <Button sx={{my: '10px'}} onClick={handleUpdate} type='submit' variant="contained">Update</Button>
-              <Button variant="outlined" color="error">Cancel</Button>
+              <Button variant="outlined" color="error" onClick={handleCancelEdit}>Cancel</Button>
           </Box>
         </form>
       </Box>

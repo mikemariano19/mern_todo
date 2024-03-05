@@ -7,7 +7,7 @@ import { useTodosContext } from '../hooks/useTodosContext'
 // mui component
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
-import { Button, Input, Typography, IconButton } from '@mui/material';
+import { Typography, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
@@ -21,7 +21,7 @@ const CheckboxLine = ({ isChecked, children }) => (
   </span>
 );
 
-const TodoItems = ({ todo }) => {
+const TodoItems = ({ todo, onToggleEdit }) => {
   const { dispatch } = useTodosContext();
 
   const [isChecked, setIsChecked] = useState(false)
@@ -39,6 +39,8 @@ const TodoItems = ({ todo }) => {
     if(!isEditing ) {
       setOriginalTitle(todo.title)
     }
+    onToggleEdit()
+    console.log('onToggleEdit')
   }
   
   // handle update
@@ -71,14 +73,7 @@ const TodoItems = ({ todo }) => {
     }
   }
   
-  const handleTitleChange = (e) => {
-    setNewTitle(e.target.value)
-  }
-
-  const handleCancelEdit = (e) => {
-    setNewTitle(originalTitle)
-    setIsEditing(false)
-  }
+  
 
   // handle blur events
   const handleBlur = async () => {
@@ -103,41 +98,6 @@ const TodoItems = ({ todo }) => {
   return (
     <Box>
       <Box>
-            <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
-              <Box sx={{display: 'flex'}}>
-                <Box>
-                  <Typography sx={{fontSize: 20}}>
-                    <CheckboxLine isChecked={isChecked}>
-                      <Checkbox onChange={handleChange} sx={{pr: 1}} />
-                        <form onSubmit={handleUpdate}>
-                          <Input 
-                          fullWidth
-                          value={newTitle}
-                          onChange={handleTitleChange}
-                          autoFocus
-                          />
-                        </form>
-                    </CheckboxLine>
-                  </Typography>
-                  {/* date */}
-                  <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
-                    {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box sx={{my: 'auto'}}>
-                <Box sx={{display: 'block'}}>
-                  
-                  <IconButton onClick={toggleEdit}>
-                    <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
-                  </IconButton>
-                   {/* delete button */}
-                  <IconButton onClick={handleDelete}>
-                    <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
-                  </IconButton>
-                </Box>
-              </Box>
-            </Grid>
           <Box>
             <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
               <Box sx={{display: 'flex'}}>

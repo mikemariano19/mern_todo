@@ -30,9 +30,10 @@ const Home = () => {
         fetchTodos()
     }, [dispatch])
 
-    const handleEditTodo = (todo) => {
+    const toggleEdit = (todo) => {
         setSelectedTodo(todo)
         setIsModalOpen(true)
+        console.log('toggle edit')
     }
 
     const handleCloseModal = () => {
@@ -46,7 +47,7 @@ const Home = () => {
         </Box>
         <Box>
             {Array.isArray(todos) && todos.map((todo) => (
-                <TodoItems key={todo._id} todo={todo} onEdit={handleEditTodo} /> // Pass edit function as prop
+                <TodoItems key={todo._id} todo={todo} onToggleEdit={toggleEdit} /> // Pass edit function as prop
             ))}
         </Box>
         {isModalOpen && (
