@@ -23,12 +23,11 @@ const CheckboxLine = ({ isChecked, children }) => (
 
 const TodoItems = ({ todo, onToggleEdit }) => {
   const { dispatch } = useTodosContext();
-
   const [isChecked, setIsChecked] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
-  const [newTitle, setNewTitle] = useState(todo.title)
+  // const [newTitle, setNewTitle] = useState(todo.title)
   const inputRef = useRef(todo.title)
-  const [originalTitle, setOriginalTitle] = useState(todo.title)
+  // const [originalTitle, setOriginalTitle] = useState(todo.title)
 
   const handleChange = async () => {
     setIsChecked(!isChecked)
@@ -36,31 +35,14 @@ const TodoItems = ({ todo, onToggleEdit }) => {
 
   const toggleEdit = () => {
     setIsEditing((prevIsEditing) => !prevIsEditing)
-    if(!isEditing ) {
-      setOriginalTitle(todo.title)
-    }
+    // if(!isEditing ) {
+    //   setOriginalTitle(todo.title)
+    // }
     onToggleEdit()
-    console.log('onToggleEdit')
+    console.log('onToggleEdit in TodoItems')
   }
   
-  // handle update
-  const handleUpdate = async () => {
-    try{
-      const response = await axios.patch('http://localhost:4001/api/todos/' + todo._id, 
-      { title: newTitle } 
-      )
-      
-      if(response.status === 200){
-        await dispatch({ type: 'UPDATE_TODO', payload: response.data })
-        setIsEditing(!isEditing)
-        console.log('Updated!')
-      }
-      
-    } catch (error) {
-      console.log('Error updating data:', error)
-    }
-  }
-
+ 
   // handle delete
   const handleDelete = async () => {
     try {

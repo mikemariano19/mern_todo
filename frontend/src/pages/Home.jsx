@@ -14,6 +14,8 @@ const Home = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedTodo, setSelectedTodo] = useState(null)
 
+
+
     useEffect(() => {
         const fetchTodos = async () => {
             try {
@@ -30,10 +32,12 @@ const Home = () => {
         fetchTodos()
     }, [dispatch])
 
-    const toggleEdit = (todo) => {
+    const handleToggleEdit = (todo) => {
         setSelectedTodo(todo)
-        setIsModalOpen(true)
-        console.log('toggle edit')
+        if(!isModalOpen){
+            setIsModalOpen(true)
+        }
+        console.log('toggle edit in Home')
     }
 
     const handleCloseModal = () => {
@@ -45,16 +49,17 @@ const Home = () => {
         <Box>
             <AddTask/>
         </Box>
-        <Box>
-            {Array.isArray(todos) && todos.map((todo) => (
-                <TodoItems key={todo._id} todo={todo} onToggleEdit={toggleEdit} /> // Pass edit function as prop
-            ))}
-        </Box>
-        {isModalOpen && (
+        {isModalOpen ? (
             <EditModal 
             todo={selectedTodo} // Pass selected todo to modal
             onClose={handleCloseModal} // Pass function to close modal
             />
+            ) : (
+            <Box>
+                {Array.isArray(todos) && todos.map((todo) => (
+                    <TodoItems key={todo._id} todo={todo} onToggleEdit={handleToggleEdit} /> // Pass edit function as prop
+                ))}
+            </Box>
             )
         }
     </Box>

@@ -9,8 +9,10 @@ import { Box, Button, TextField } from '@mui/material'
 
 const EditModal = ({ todo }) => {
   const { dispatch } = useTodosContext();
+  const [newTitle, setNewTitle] = useState(todo)
+  const [originalTitle, setOriginalTitle] = useState(todo)
+  const [isEditing, setIsEditing] = useState(false)
 
-  const [newTitle, setNewTitle] = useState(todo.title)
 
   const handleUpdate = async () => {
     try{
@@ -33,15 +35,18 @@ const EditModal = ({ todo }) => {
   }
 
   const handleCancelEdit = (e) => {
-    setNewTitle(originalTitle)
+    if(!isEditing){
+      setOriginalTitle(originalTitle)
+    }
     setIsEditing(false)
+    console.log('cancelling edit')
   }
 
   return (
     <Box zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center', backgroundColor: 'red'}}>
       <Box  sx={{
         display: 'block',
-        backgroundColor: '#393943',
+        backgroundColor: 'red',
         borderRadius: '5px',
         padding: '50px',
         maxWidth: '300px'
@@ -49,7 +54,7 @@ const EditModal = ({ todo }) => {
         <form onSubmit={handleUpdate}>
           <TextField 
           fullWidth 
-          value={newTitle} 
+          // value={newTitle} 
           onChange={handleTitleChange} 
           inputProps={{ maxLength: 20 }} 
           sx={{display: 'block', pb: '5px', backgroundColor: '#393943'}}
