@@ -17,7 +17,7 @@ const input = () => {
   const { dispatch } = useTodosContext()
 
   const [ title, setTitle ] = useState('')
-  const [ error, setError ] = useState(null)
+  const [ isError, setIsError ] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -33,16 +33,19 @@ const input = () => {
         }
       })
 
-      setError(null)
+      setIsError(null)
       setTitle('')
       console.log('New todo added:', response.data)
       dispatch({type: 'CREATE_TODO', payload: response.data})
     } catch(error){
-      setError(error.response.data.error)
+      setIsError(error.response.data)
       console.log(error.response.data)
     }
   
   }
+
+ 
+
   return (
         <form action="submit" onSubmit={handleSubmit}>
           <Grid container spacing={0} sx={{mb: 3}}>

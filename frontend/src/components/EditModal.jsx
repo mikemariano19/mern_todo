@@ -9,7 +9,7 @@ import { Box, Button, TextField } from '@mui/material'
 
 const EditModal = ({ todo }) => {
   const { dispatch } = useTodosContext();
-  const [newTitle, setNewTitle] = useState(todo)
+  const [newTitle, setNewTitle] = useState(todo.title)
   const [originalTitle, setOriginalTitle] = useState(todo)
   const [isEditing, setIsEditing] = useState(false)
 
@@ -42,6 +42,25 @@ const EditModal = ({ todo }) => {
     console.log('cancelling edit')
   }
 
+  // handle blur event
+  const handleBlur = async () => {
+    try{
+      if(newTitle !== todo.title) {
+        const isConfirmed = window.confirm(`Do you want to save the changes of ${todo.title} to ${newTitle}`)
+        if(isConfirmed) {
+         await handleUpdate()
+        } if(!isConfirmed) {
+          handleCancelEdit()
+        }
+      }
+      
+    } catch (error) {
+      console.log('Error updating data:', error)
+      // setNewTitle(todo.title)
+      setIsEditing(!isEditing)
+    }
+  }
+
   return (
     <Box zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center', backgroundColor: 'red'}}>
       <Box  sx={{
@@ -53,8 +72,10 @@ const EditModal = ({ todo }) => {
     }}>
         <form onSubmit={handleUpdate}>
           <TextField 
-          fullWidth 
-          // value={newTitle} 
+          fullWidth
+          autoFocus
+          onBlur={handleBlur}
+          value={newTitle} 
           onChange={handleTitleChange} 
           inputProps={{ maxLength: 20 }} 
           sx={{display: 'block', pb: '5px', backgroundColor: '#393943'}}

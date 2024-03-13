@@ -29,7 +29,7 @@ const TodoItems = ({ todo, onToggleEdit }) => {
   const inputRef = useRef(todo.title)
   // const [originalTitle, setOriginalTitle] = useState(todo.title)
 
-  const handleChange = async () => {
+  const handleChange = () => {
     setIsChecked(!isChecked)
   }
 
@@ -55,27 +55,6 @@ const TodoItems = ({ todo, onToggleEdit }) => {
     }
   }
   
-  
-
-  // handle blur events
-  const handleBlur = async () => {
-    try{
-      if(newTitle !== todo.title) {
-        const isConfirmed = window.confirm(`Do you want to save the changes of ${todo.title} to ${newTitle}`)
-        if(isConfirmed) {
-         await handleUpdate()
-        } if(!isConfirmed) {
-          handleCancelEdit()
-        }
-      }
-      
-    } catch (error) {
-      console.log('Error updating data:', error)
-      // setNewTitle(todo.title)
-      setIsEditing(!isEditing)
-    }
-  }
-
 
   return (
     <Box>
