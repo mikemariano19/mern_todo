@@ -24,9 +24,9 @@ const CheckboxLine = ({ isChecked, children }) => (
 const TodoItems = ({ todo, onToggleEdit }) => {
   const { dispatch } = useTodosContext();
   const [isChecked, setIsChecked] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
+  // const [isEditing, setIsEditing] = useState(false)
   // const [newTitle, setNewTitle] = useState(todo.title)
-  const inputRef = useRef(todo.title)
+  // const inputRef = useRef(todo.title)
   // const [originalTitle, setOriginalTitle] = useState(todo.title)
 
   const handleChange = () => {
@@ -34,7 +34,7 @@ const TodoItems = ({ todo, onToggleEdit }) => {
   }
 
   const toggleEdit = () => {
-    setIsEditing((prevIsEditing) => !prevIsEditing)
+    // setIsEditing((prevIsEditing) => !prevIsEditing)
     // if(!isEditing ) {
     //   setOriginalTitle(todo.title)
     // }

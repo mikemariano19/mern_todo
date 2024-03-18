@@ -10,7 +10,7 @@ import { Box, Button, TextField } from '@mui/material'
 const EditModal = ({ todo }) => {
   const { dispatch } = useTodosContext();
   const [newTitle, setNewTitle] = useState(todo.title)
-  const [originalTitle, setOriginalTitle] = useState(todo)
+  const [originalTitle, setOriginalTitle] = useState(todo.title)
   const [isEditing, setIsEditing] = useState(false)
 
 
@@ -42,31 +42,39 @@ const EditModal = ({ todo }) => {
     console.log('cancelling edit')
   }
 
-  // handle blur event
-  const handleBlur = async () => {
-    try{
-      if(newTitle !== todo.title) {
-        const isConfirmed = window.confirm(`Do you want to save the changes of ${todo.title} to ${newTitle}`)
-        if(isConfirmed) {
-         await handleUpdate()
-        } if(!isConfirmed) {
-          handleCancelEdit()
-        }
-      }
-      
-    } catch (error) {
-      console.log('Error updating data:', error)
-      // setNewTitle(todo.title)
-      setIsEditing(!isEditing)
+  const handleEditing = (e) => {
+    setIsEditing((prevIsEditing) => !prevIsEditing)
+    if(!isEditing){
+      setOriginalTitle(todo.title)
     }
   }
+  // handle blur event
+  // const handleBlur = async () => {
+  //   try{
+  //     if(newTitle !== todo) {
+  //       const isConfirmed = window.confirm(`Do you want to save the changes of ${todo} to ${newTitle}`)
+  //       if(isConfirmed) {
+  //        await handleUpdate()
+  //       } if(!isConfirmed) {
+  //         handleCancelEdit()
+  //       }
+  //     }
+  //     console.log('blurred')
+  //   } catch (error) {
+  //     console.log('Error updating data:', error)
+  //     // setNewTitle(todo.title)
+  //     setIsEditing(!isEditing)
+  //   }
+  // }
 
   return (
-    <Box zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center', backgroundColor: 'red'}}>
+    <Box zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center'}}>
       <Box  sx={{
         display: 'block',
-        backgroundColor: 'red',
-        borderRadius: '5px',
+        backgroundColor: 'white',
+        borderRadius: 4,
+        border: 1,
+        borderColor: 'grey.500',
         padding: '50px',
         maxWidth: '300px'
     }}>
@@ -74,13 +82,13 @@ const EditModal = ({ todo }) => {
           <TextField 
           fullWidth
           autoFocus
-          onBlur={handleBlur}
-          value={newTitle} 
+          // onBlur={handleBlur}
+          value={newTitle !== undefined ? newTitle :''} 
           onChange={handleTitleChange} 
           inputProps={{ maxLength: 20 }} 
-          sx={{display: 'block', pb: '5px', backgroundColor: '#393943'}}
+          sx={{display: 'block', pb: '5px'}}
           id="outlined-basic" 
-          label="Edit Todo" 
+          label="Edit Todo"
           variant="outlined" />
           <Box sx={{display: 'grid'}}>
               <Button sx={{my: '10px'}} onClick={handleUpdate} type='submit' variant="contained">Update</Button>

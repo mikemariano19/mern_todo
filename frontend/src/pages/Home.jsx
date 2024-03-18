@@ -50,9 +50,10 @@ const Home = () => {
             <AddTask/>
         </Box>
         {isModalOpen ? (
-            <EditModal 
+            <EditModal
             todo={selectedTodo} // Pass selected todo to modal
             onClose={handleCloseModal} // Pass function to close modal
+            key={todo._id}
             />
             ) : (
             <Box>
