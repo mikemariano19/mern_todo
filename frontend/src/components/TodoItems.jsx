@@ -19,7 +19,7 @@ const CheckboxLine = ({ isChecked, children }) => (
   <span style={{ textDecoration: isChecked ? 'line-through' : 'none' }}>
     {children}
   </span>
-);
+)
 
 const TodoItems = ({ todo, onToggleEdit }) => {
   const { dispatch } = useTodosContext();

@@ -9,8 +9,8 @@ import { Box, Button, TextField } from '@mui/material'
 
 const EditModal = ({ todo }) => {
   const { dispatch } = useTodosContext();
-  const [newTitle, setNewTitle] = useState(todo.title)
-  const [originalTitle, setOriginalTitle] = useState(todo.title)
+  const [newTitle, setNewTitle] = useState(todo)
+  const [originalTitle, setOriginalTitle] = useState(todo)
   const [isEditing, setIsEditing] = useState(false)
 
 
@@ -71,7 +71,7 @@ const EditModal = ({ todo }) => {
     <Box zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center'}}>
       <Box  sx={{
         display: 'block',
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(133, 133, 133, 0.1)',
         borderRadius: 4,
         border: 1,
         borderColor: 'grey.500',

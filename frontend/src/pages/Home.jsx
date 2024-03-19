@@ -9,7 +9,7 @@ import AddTask from '../components/AddTask'
 import EditModal from '../components/EditModal'
 import { Box } from '@mui/material'
 
-const Home = () => {
+const Home = ({ todo }) => {
     const { todos, dispatch } = useTodosContext()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedTodo, setSelectedTodo] = useState(null)
@@ -53,7 +53,7 @@ const Home = () => {
             <EditModal
             todo={selectedTodo} // Pass selected todo to modal
             onClose={handleCloseModal} // Pass function to close modal
-            key={todo._id}
+            key={todo}
             />
             ) : (
             <Box>
