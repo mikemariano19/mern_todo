@@ -12,7 +12,7 @@ import { Box } from '@mui/material'
 const Home = ({ todo }) => {
     const { todos, dispatch } = useTodosContext()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [selectedTodo, setSelectedTodo] = useState(null)
+    const [selectedTodo, setSelectedTodo] = useState(todo)
 
 
 

@@ -57,40 +57,36 @@ const TodoItems = ({ todo, onToggleEdit }) => {
   
 
   return (
-    <Box>
       <Box>
-          <Box>
-            <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
-              <Box sx={{display: 'flex'}}>
-                <Box>
-                  <Typography sx={{fontSize: 20}}>
-                    <CheckboxLine isChecked={isChecked}>
-                      <Checkbox onChange={handleChange} sx={{pr: 1}} />
-                        <span>{todo.title}</span>
-                    </CheckboxLine>
-                  </Typography>
-                  {/* date */}
-                  <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
-                    {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box sx={{my: 'auto'}}>
-                <Box sx={{display: 'block'}}>
-                  {/* edit button */}
-                  <IconButton onClick={toggleEdit}>
-                    <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
-                  </IconButton>
-                  {/* delete button */}
-                  <IconButton onClick={handleDelete}>
-                    <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
-                  </IconButton>
-                </Box>
-              </Box>
-            </Grid>
+        <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
+          <Box sx={{display: 'flex'}}>
+            <Box>
+              <Typography sx={{fontSize: 20}}>
+                <CheckboxLine isChecked={isChecked}>
+                  <Checkbox onChange={handleChange} sx={{pr: 1}} />
+                    <span>{todo.title}</span>
+                </CheckboxLine>
+              </Typography>
+              {/* date */}
+              <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
+                {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
+              </Typography>
+            </Box>
           </Box>
+          <Box sx={{my: 'auto'}}>
+            <Box sx={{display: 'block'}}>
+              {/* edit button */}
+              <IconButton onClick={toggleEdit}>
+                <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
+              </IconButton>
+              {/* delete button */}
+              <IconButton onClick={handleDelete}>
+                <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
+              </IconButton>
+            </Box>
+          </Box>
+        </Grid>
       </Box>
-    </Box>
   )
 }
 

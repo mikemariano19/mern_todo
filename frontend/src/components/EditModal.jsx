@@ -9,7 +9,7 @@ import { Box, Button, TextField } from '@mui/material'
 
 const EditModal = ({ todo }) => {
   const { dispatch } = useTodosContext();
-  const [newTitle, setNewTitle] = useState(todo)
+  const [newTitle, setNewTitle] = useState(todo.title)
   const [originalTitle, setOriginalTitle] = useState(todo)
   const [isEditing, setIsEditing] = useState(false)
 
@@ -32,22 +32,18 @@ const EditModal = ({ todo }) => {
   
   const handleTitleChange = (e) => {
     setNewTitle(e.target.value)
+    console.log('title changed')
   }
 
   const handleCancelEdit = (e) => {
-    if(!isEditing){
+    if(isEditing){
       setOriginalTitle(originalTitle)
     }
     setIsEditing(false)
     console.log('cancelling edit')
   }
 
-  const handleEditing = (e) => {
-    setIsEditing((prevIsEditing) => !prevIsEditing)
-    if(!isEditing){
-      setOriginalTitle(todo.title)
-    }
-  }
+  
   // handle blur event
   // const handleBlur = async () => {
   //   try{
