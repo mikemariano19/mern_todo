@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import { useTodosContext } from '../hooks/useTodosContext';
@@ -7,11 +7,12 @@ import { useTodosContext } from '../hooks/useTodosContext';
 import { Box, Button, TextField } from '@mui/material'
 
 
-const EditModal = ({ todo }) => {
+  const EditModal = ({ todo }) => {
   const { dispatch } = useTodosContext();
-  const [newTitle, setNewTitle] = useState(todo.title)
+  const [newTitle, setNewTitle] = useState(todo);
   const [originalTitle, setOriginalTitle] = useState(todo)
   const [isEditing, setIsEditing] = useState(false)
+
 
 
   const handleUpdate = async () => {
@@ -30,13 +31,13 @@ const EditModal = ({ todo }) => {
     }
   }
   
-  const handleTitleChange = (e) => {
-    setNewTitle(e.target.value)
-    console.log('title changed')
-  }
+  // const handleTitleChange = (e) => {
+  //     setNewTitle(e.target.value)
+  //     console.log(e.target.value)
+  // }
 
-  const handleCancelEdit = (e) => {
-    if(isEditing){
+  const handleCancelEdit = () => {
+    if(!isEditing){
       setOriginalTitle(originalTitle)
     }
     setIsEditing(false)
@@ -65,7 +66,7 @@ const EditModal = ({ todo }) => {
 
   return (
     <Box zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center'}}>
-      <Box  sx={{
+      <Box sx={{
         display: 'block',
         backgroundColor: 'rgba(133, 133, 133, 0.1)',
         borderRadius: 4,
@@ -73,14 +74,15 @@ const EditModal = ({ todo }) => {
         borderColor: 'grey.500',
         padding: '50px',
         maxWidth: '300px'
-    }}>
+        }}>
         <form onSubmit={handleUpdate}>
           <TextField 
           fullWidth
           autoFocus
+          type='text'
           // onBlur={handleBlur}
-          value={newTitle !== undefined ? newTitle :''} 
-          onChange={handleTitleChange} 
+          value={newTitle} 
+          onChange={(e) => setNewTitle(e.target.value)} 
           inputProps={{ maxLength: 20 }} 
           sx={{display: 'block', pb: '5px'}}
           id="outlined-basic" 
@@ -92,7 +94,7 @@ const EditModal = ({ todo }) => {
           </Box>
         </form>
       </Box>
-    </Box>
+    </Box> 
   )
 }
 

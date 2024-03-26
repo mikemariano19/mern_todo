@@ -4,9 +4,9 @@ import axios from 'axios'
 
 
 // components
+import EditModal from '../components/EditModal'
 import TodoItems from '../components/TodoItems'
 import AddTask from '../components/AddTask'
-import EditModal from '../components/EditModal'
 import { Box } from '@mui/material'
 
 const Home = ({ todo }) => {
@@ -51,9 +51,9 @@ const Home = ({ todo }) => {
         </Box>
         {isModalOpen ? (
             <EditModal
+            key={todo}
             todo={selectedTodo} // Pass selected todo to modal
             onClose={handleCloseModal} // Pass function to close modal
-            key={todo}
             />
             ) : (
             <Box>
