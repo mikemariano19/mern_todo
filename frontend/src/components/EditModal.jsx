@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import { useTodosContext } from '../hooks/useTodosContext';
@@ -6,14 +6,13 @@ import { useTodosContext } from '../hooks/useTodosContext';
 // mui component
 import { Box, Button, TextField } from '@mui/material'
 
-
   const EditModal = ({ todo }) => {
+    
   const { dispatch } = useTodosContext();
   const [newTitle, setNewTitle] = useState(todo);
+  const inputRef = useRef(todo);
   const [originalTitle, setOriginalTitle] = useState(todo)
   const [isEditing, setIsEditing] = useState(false)
-
-
 
   const handleUpdate = async () => {
     try{
@@ -21,10 +20,8 @@ import { Box, Button, TextField } from '@mui/material'
         { title: newTitle } 
       )
       
-      if(response.status === 200){
         dispatch({ type: 'UPDATE_TODO', payload: response.data })
-        console.log('updated')
-      }
+        console.log('Updated!')
       
     } catch (error) {
       console.log('Error updating data:', error)
@@ -75,13 +72,13 @@ import { Box, Button, TextField } from '@mui/material'
         padding: '50px',
         maxWidth: '300px'
         }}>
-        <form onSubmit={handleUpdate}>
+        <form action='' onSubmit={handleUpdate}>
           <TextField 
           fullWidth
           autoFocus
           type='text'
           // onBlur={handleBlur}
-          value={newTitle} 
+          value={inputRef} 
           onChange={(e) => setNewTitle(e.target.value)} 
           inputProps={{ maxLength: 20 }} 
           sx={{display: 'block', pb: '5px'}}

@@ -4,16 +4,16 @@ import axios from 'axios'
 
 
 // components
-import EditModal from '../components/EditModal'
-import TodoItems from '../components/TodoItems'
+// import TodoItems from '../components/TodoItems'
+import TodoItemss from '../components/TodoItemss'
+// import EditModal from '../components/EditModal'
 import AddTask from '../components/AddTask'
 import { Box } from '@mui/material'
 
 const Home = ({ todo }) => {
     const { todos, dispatch } = useTodosContext()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [selectedTodo, setSelectedTodo] = useState(todo)
-
+    const [selectedTodo, setSelectedTodo] = useState(null)
 
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const Home = ({ todo }) => {
         fetchTodos()
     }, [dispatch])
 
-    const handleToggleEdit = (todo) => {
+    const handleToggleEdit = () => {
         setSelectedTodo(todo)
         if(!isModalOpen){
             setIsModalOpen(true)
@@ -49,20 +49,22 @@ const Home = ({ todo }) => {
         <Box>
             <AddTask/>
         </Box>
-        {isModalOpen ? (
+        {isModalOpen && selectedTodo && (
             <EditModal
-            key={todo}
-            todo={selectedTodo} // Pass selected todo to modal
-            onClose={handleCloseModal} // Pass function to close modal
+                // key={todo._id}
+                todo={selectedTodo} // Pass selected todo to modal
+                onClose={handleCloseModal} // Pass function to close modal
             />
-            ) : (
+            )}
             <Box>
                 {Array.isArray(todos) && todos.map((todo) => (
-                    <TodoItems key={todo._id} todo={todo} onToggleEdit={handleToggleEdit} /> // Pass edit function as prop
+                    <TodoItemss 
+                        key={todo._id} 
+                        todo={todo} 
+                        onToggleEdit={()=> handleToggleEdit(todo)} 
+                    /> // Pass edit function as prop
                 ))}
             </Box>
-            )
-        }
     </Box>
   )
 }
