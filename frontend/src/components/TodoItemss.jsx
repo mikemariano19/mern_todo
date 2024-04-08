@@ -11,6 +11,8 @@ import { Typography, IconButton, TextField, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
+import DoneIcon from '@mui/icons-material/Done';
+import ClearIcon from '@mui/icons-material/Clear';
 
 // Date-fns
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
@@ -26,7 +28,8 @@ const TodoItemss = ({ todo }) => {
   const [isChecked, setIsChecked] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [newTitle, setNewTitle] = useState(todo.title)
-//   const inputRef = useRef(todo.title)
+  const [toggled, setToggled] = useState(false)
+  const inputRef = useRef(todo.title)
   const [originalTitle, setOriginalTitle] = useState(todo.title)
 
   const handleChange = () => {
@@ -35,12 +38,12 @@ const TodoItemss = ({ todo }) => {
 
   const toggleEdit = (todo) => {
     setIsEditing((prevIsEditing) => !prevIsEditing)
+    setToggled(!toggled)
     if(!isEditing ) {
       setOriginalTitle(todo.title)
     }
     console.log('onToggleEdit in TodoItems')
   }
-
 
 // handle update
   const handleUpdate = async () => {
@@ -48,10 +51,8 @@ const TodoItemss = ({ todo }) => {
       const response = await axios.patch('http://localhost:4001/api/todos/' + todo._id, 
         { title: newTitle } 
       )
-      1
         dispatch({ type: 'UPDATE_TODO', payload: response.data })
         console.log('Updated!')
-      
     } catch (error) {
       console.log('Error updating data:', error)
     }
@@ -80,12 +81,15 @@ const TodoItemss = ({ todo }) => {
 // handle onblur
   const handleBlur = async () => {
     try {
-      if (newTitle !== originalTitle) {
-        const isConfirmed = window.confirm(`Do you want to save the changes of "${originalTitle}" to "${newTitle}"?`);
+      if (newTitle !== todo.title) {
+        const isConfirmed = window.confirm(`Do you want to save the changes of "${todo.title}" to "${newTitle}"?`);
         if (isConfirmed) {
           await handleUpdate();
+          location.reload();
         } else {
           handleCancelEdit();
+          setIsEditing(isEditing);
+          location.reload();
         }
       }
     } catch (error) {
@@ -94,18 +98,16 @@ const TodoItemss = ({ todo }) => {
     }
   };
 
-  
-
   return (
       <Box>
-        {!isEditing ? (
+          {!isEditing ? (
             <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
             <Box sx={{display: 'flex'}}>
               <Box>
                 <Typography sx={{fontSize: 20}}>
                   <CheckboxLine isChecked={isChecked}>
                     <Checkbox onChange={handleChange} sx={{pr: 1}} />
-                      <span>{todo.title}</span>
+                          <span>{todo.title}</span>
                   </CheckboxLine>
                 </Typography>
                 {/* date */}
@@ -114,36 +116,67 @@ const TodoItemss = ({ todo }) => {
                 </Typography>
               </Box>
             </Box>
-                {!isEditing ? (
-                    <Box sx={{my: 'auto'}}>
-                    <Box sx={{display: 'block'}}>
-                    {/* edit button */}
-                    <IconButton disabled onClick={toggleEdit}>
-                        <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
-                    </IconButton>
-                    {/* delete button */}
-                    <IconButton disabled onClick={handleDelete}>
-                        <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
-                    </IconButton>
-                    </Box>
+              <Box sx={{my: 'auto'}}>
+              <Box sx={{display: 'block'}}>
+              {/* edit button */}
+              <IconButton onClick={toggleEdit}>
+                  <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
+              </IconButton>
+              {/* delete button */}
+              <IconButton onClick={handleDelete}>
+                  <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
+              </IconButton>
               </Box>
-                ) : (
-                    <Box sx={{my: 'auto'}}>
-                    <Box sx={{display: 'block'}}>
-                    {/* edit button */}
-                    <IconButton  onClick={toggleEdit}>
-                        <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
-                    </IconButton>
-                    {/* delete button */}
-                    <IconButton disabled onClick={handleDelete}>
-                        <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
-                    </IconButton>
-                    </Box>
+            </Box>
+        </Grid>
+          ) : (
+            <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
+              <Box sx={{display: 'flex'}}>
+                <Box>
+                  <Typography sx={{fontSize: 20}}>
+                    <CheckboxLine isChecked={isChecked}>
+                      <Checkbox onChange={handleChange} sx={{pr: 1}} />
+                        <span>
+                          <TextField
+                            type='standard-helperText'
+                            id='todo-edit'
+                            variant="standard"
+                            sx={{height: '20px', fontSize: '20px', lineHeight: '20px', borderBottom: 0}}
+                            value={newTitle}
+                            onChange={(e) => setNewTitle(e.target.value)}
+                            autoFocus
+                            onBlur={handleBlur}
+                          />
+                        </span>
+                    </CheckboxLine>
+                  </Typography>
+                  {/* date */}
+                  <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
+                    {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
+                  </Typography>
+                </Box>
               </Box>
-                )}
+            <Box sx={{my: 'auto'}}>
+                <Box sx={{display: 'block'}}>
+                {/* edit button */}
+                <IconButton onClick={toggleEdit}>
+                    <DoneIcon sx={{fontSize: 32, color: 'white', backgroundColor:'#1976D2', borderRadius: 1}} />
+                </IconButton>
+                {/* delete button */}
+                <IconButton onClick={handleCancelEdit}>
+                    <ClearIcon sx={{fontSize: 32, color: 'white', backgroundColor:'#F34542', borderRadius: 1}}/>
+                </IconButton>
+                </Box>
+              </Box>
           </Grid>
-        ) : (
-            <Box zIndex={5} sx={{display: 'flex', position: 'absolute', justifyContent: 'center'}}>
+          )}
+        {/* <Box zIndex={5} sx={{
+          display: 'flex', 
+          position: 'absolute', 
+          justifyContent: 'center', 
+          backgroundColor: 'red',
+          width: '900px',
+          }}>
             <Box sx={{
                 display: 'block',
                 backgroundColor: 'rgba(133, 133, 133, 0.1)',
@@ -158,7 +191,6 @@ const TodoItemss = ({ todo }) => {
                 fullWidth
                 autoFocus
                 type='text'
-                // onBlur={handleBlur}
                 value={newTitle} 
                 onChange={(e) => setNewTitle(e.target.value)} 
                 inputProps={{ maxLength: 20 }} 
@@ -172,8 +204,7 @@ const TodoItemss = ({ todo }) => {
                 </Box>
                 </form>
             </Box>
-        </Box> 
-      )}
+        </Box>  */}
       </Box>
   )
 }

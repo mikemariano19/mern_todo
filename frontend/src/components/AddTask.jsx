@@ -15,7 +15,6 @@ import { useTodosContext } from '../hooks/useTodosContext'
 
 const input = () => {
   const { dispatch } = useTodosContext()
-
   const [ title, setTitle ] = useState('')
   const [ isError, setIsError ] = useState(null)
 
@@ -47,7 +46,7 @@ const input = () => {
  
 
   return (
-        <form action="submit" onSubmit={handleSubmit}>
+        <form action="submit" name='todo' onSubmit={handleSubmit}>
           <Grid container spacing={0} sx={{mb: 3}}>
             <Grid item xs={10} md={10} sx={{mt: 0, pt: 0}}>
                 <TextField
