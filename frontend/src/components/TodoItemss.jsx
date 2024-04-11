@@ -7,7 +7,7 @@ import { useTodosContext } from '../hooks/useTodosContext'
 // mui component
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
-import { Typography, IconButton, TextField, Button } from '@mui/material';
+import { Typography, IconButton, TextField, Button, FormControl, FormLabel, FormHelperText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
@@ -52,6 +52,7 @@ const TodoItemss = ({ todo }) => {
         { title: newTitle } 
       )
         dispatch({ type: 'UPDATE_TODO', payload: response.data })
+        location.reload();
         console.log('Updated!')
     } catch (error) {
       console.log('Error updating data:', error)
@@ -130,22 +131,43 @@ const TodoItemss = ({ todo }) => {
             </Box>
         </Grid>
           ) : (
-            <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
-              <Box sx={{display: 'flex'}}>
+            <Grid className='todo-details' container justifyContent={'space-between'} 
+            sx={{
+              border: 1, 
+              borderColor: '#949494',
+              backgroundColor: 'red',
+              }}>
+              <Box zIndex={5} sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                padding: 'auto',
+                borderRadius: '5px',
+                boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                width: '100vw',
+                height: '100vh',
+                }}>
+              <Box>
                 <Box>
                   <Typography sx={{fontSize: 20}}>
                     <CheckboxLine isChecked={isChecked}>
-                      <Checkbox onChange={handleChange} sx={{pr: 1}} />
-                        <span>
+                        <span onSubmit={handleUpdate}>
                           <TextField
-                            type='standard-helperText'
-                            id='todo-edit'
+                            autoComplete='off'
+                            name='todo'
+                            fontSize='20px'
+                            type='standard'
+                            id='todo-edit' 
                             variant="standard"
-                            sx={{height: '20px', fontSize: '20px', lineHeight: '20px', borderBottom: 0}}
                             value={newTitle}
                             onChange={(e) => setNewTitle(e.target.value)}
                             autoFocus
-                            onBlur={handleBlur}
+                            // onBlur={handleBlur}
                           />
                         </span>
                     </CheckboxLine>
@@ -156,10 +178,10 @@ const TodoItemss = ({ todo }) => {
                   </Typography>
                 </Box>
               </Box>
-            <Box sx={{my: 'auto'}}>
+              <Box sx={{my: 'auto'}}>
                 <Box sx={{display: 'block'}}>
                 {/* edit button */}
-                <IconButton onClick={toggleEdit}>
+                <IconButton onClick={handleUpdate}>
                     <DoneIcon sx={{fontSize: 32, color: 'white', backgroundColor:'#1976D2', borderRadius: 1}} />
                 </IconButton>
                 {/* delete button */}
@@ -167,6 +189,7 @@ const TodoItemss = ({ todo }) => {
                     <ClearIcon sx={{fontSize: 32, color: 'white', backgroundColor:'#F34542', borderRadius: 1}}/>
                 </IconButton>
                 </Box>
+              </Box>
               </Box>
           </Grid>
           )}

@@ -14,6 +14,7 @@ const Home = ({ todo }) => {
     const { todos, dispatch } = useTodosContext()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedTodo, setSelectedTodo] = useState(null)
+    const [editModeTodoId, setEditModeTodoId] = useState(null);
 
 
     useEffect(() => {
@@ -62,6 +63,7 @@ const Home = ({ todo }) => {
                         key={todo._id} 
                         todo={todo} 
                         onToggleEdit={()=> handleToggleEdit(todo)} 
+                        disableButtons={editModeTodoId !== null && editModeTodoId !==todo._id}
                     /> // Pass edit function as prop
                 ))}
             </Box>
