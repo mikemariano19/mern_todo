@@ -11,7 +11,7 @@ import Home from './pages/Home';
 
 function App() {
   return (
-    <Container disableGutters  maxWidth="md" sx={{mx: 'auto', px: 0, backgroundColor: ''}}>
+    <Container disableGutters  maxWidth="md" sx={{mx: 'auto', px: 0}}>
       <Header />
       <Home />
     </Container>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import { useTodosContext } from '../hooks/useTodosContext'
@@ -7,7 +7,7 @@ import { useTodosContext } from '../hooks/useTodosContext'
 // mui component
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
-import { Typography, IconButton } from '@mui/material';
+import { Typography, IconButton, TextField, Button, FormControl, FormLabel, FormHelperText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
@@ -21,28 +21,41 @@ const CheckboxLine = ({ isChecked, children }) => (
   </span>
 )
 
-const TodoItem = ({ todo, onToggleEdit }) => {
+const TodoItemss = ({ todo }) => {
   const { dispatch } = useTodosContext();
   const [isChecked, setIsChecked] = useState(false)
-  // const [isEditing, setIsEditing] = useState(false)
-  // const [newTitle, setNewTitle] = useState(todo.title)
-  // const inputRef = useRef(todo.title)
-  // const [originalTitle, setOriginalTitle] = useState(todo.title)
+  const [isEditing, setIsEditing] = useState(false)
+  const [newTitle, setNewTitle] = useState(todo.title)
+  const [toggled, setToggled] = useState(false)
+  const [originalTitle, setOriginalTitle] = useState(todo.title)
 
   const handleChange = () => {
     setIsChecked(!isChecked)
   }
 
   const toggleEdit = (todo) => {
-    // setIsEditing((prevIsEditing) => !prevIsEditing)
-    // if(!isEditing ) {
-    //   setOriginalTitle(todo.title)
-    // }
-    onToggleEdit(todo.title)
+    setIsEditing((prevIsEditing) => !prevIsEditing)
+    setToggled(!toggled)
+    if(!isEditing ) {
+      setOriginalTitle(todo.title)
+    }
     console.log('onToggleEdit in TodoItems')
   }
+
+// handle update
+  const handleUpdate = async () => {
+    try{
+      const response = await axios.patch('http://localhost:4001/api/todos/' + todo._id, 
+        { title: newTitle } 
+      )
+        dispatch({ type: 'UPDATE_TODO', payload: response.data })
+        location.reload();
+        console.log('Updated!')
+    } catch (error) {
+      console.log('Error updating data:', error)
+    }
+  }
   
- 
   // handle delete
   const handleDelete = async () => {
     try {
@@ -54,40 +67,131 @@ const TodoItem = ({ todo, onToggleEdit }) => {
       console.log('Error deleting data:', error)
     }
   }
-  
+
+// handle cancel edit
+  const handleCancelEdit = () => {
+    if(!isEditing){
+      setOriginalTitle(originalTitle)
+    }
+    setIsEditing(false)
+    console.log('cancelling edit')
+  }
+// handle onblur
+  const handleBlur = async () => {
+    try {
+      if (newTitle !== todo.title) {
+        const isConfirmed = window.confirm(`Do you want to save the changes of "${todo.title}" to "${newTitle}"?`);
+        if (isConfirmed) {
+          await handleUpdate();
+          location.reload();
+        } else {
+          handleCancelEdit();
+          setIsEditing(isEditing);
+          location.reload();
+        }
+      }
+    } catch (error) {
+      console.log('Error updating data:', error);
+      setIsEditing(false); // Exit edit mode on error
+    }
+  };
 
   return (
       <Box>
+          {!isEditing ? (
         <Grid className='todo-details' container justifyContent={'space-between'} sx={{borderBottom: 1, borderColor: '#949494'}}>
-          <Box sx={{display: 'flex'}}>
-            <Box>
-              <Typography sx={{fontSize: 20}}>
-                <CheckboxLine isChecked={isChecked}>
-                  <Checkbox onChange={handleChange} sx={{pr: 1}} />
-                    <span>{todo.title}</span>
-                </CheckboxLine>
-              </Typography>
-              {/* date */}
-              <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
-                {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
-              </Typography>
+            <Box sx={{display: 'flex'}}>
+              <Box>
+                <Typography sx={{fontSize: 20}}>
+                  <CheckboxLine isChecked={isChecked}>
+                    <Checkbox onChange={handleChange} sx={{pr: 1}} />
+                          <span>{todo.title}</span>
+                  </CheckboxLine>
+                </Typography>
+                {/* date */}
+                <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
+                  {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-          <Box sx={{my: 'auto'}}>
-            <Box sx={{display: 'block'}}>
+              <Box sx={{my: 'auto'}}>
+              <Box sx={{display: 'block'}}>
               {/* edit button */}
               <IconButton onClick={toggleEdit}>
-                <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
+                  <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
               </IconButton>
               {/* delete button */}
               <IconButton onClick={handleDelete}>
-                <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
+                  <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
               </IconButton>
+              </Box>
             </Box>
-          </Box>
         </Grid>
+          ) : (
+              <Box zIndex={5} 
+                  sx={{
+                    display: 'grid',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    padding: 'auto',
+                    borderRadius: '5px',
+                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                    width: '100vw',
+                    height: '100vh',
+                    }}>
+                <Box sx={{backgroundColor: '#E6EBF4', padding: '15px', py: '30px', borderRadius: '10px'}}>
+                  <Box>
+                      <CheckboxLine isChecked={isChecked}>
+                          <form onSubmit={handleUpdate}>
+                            <TextField sx={{
+                              '& .MuiInputBase-input': {
+                                color: '',
+                                borderRadius: '5px',
+                                fontSize: '20px',
+                                width: '100%',
+                              },
+                            }}
+                              autoComplete='off'
+                              name='todo'
+                              fontSize='20px'
+                            type='standard'
+                            id='todo-edit'
+                            value={newTitle}
+                            onChange={(e) => setNewTitle(e.target.value)}
+                            autoFocus
+                            // onBlur={handleBlur}
+                          />
+                        </form>
+                    </CheckboxLine>
+                  {/* date */}
+                  <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
+                    {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
+                  </Typography>
+                </Box>
+                  <Box>
+                    {/* edit button */}
+                    <Box>
+                      <Button onClick={handleUpdate} variant="contained" sx={{width: '100%'}}>
+                        UPDATE
+                      </Button>
+                    </Box>
+                    {/* delete button */}
+                    <Box>
+                      <Button onClick={handleCancelEdit} variant="outlined" color="error" sx={{width: '100%', mt: '5px'}}>
+                        CANCEL
+                      </Button>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+          )}
       </Box>
   )
 }
 
-export default TodoItem
+export default TodoItemss
