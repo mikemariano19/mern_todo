@@ -50,7 +50,7 @@ const input = () => {
           <Grid container spacing={0} sx={{mb: 3}}>
             <Grid item xs={10} md={10} sx={{mt: 0, pt: 0}}>
                 <TextField
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value.toUpperCase())}
                   value={title}
                   name={'addtask'}
                   label="ADD TASK"

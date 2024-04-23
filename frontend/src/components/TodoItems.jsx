@@ -73,6 +73,7 @@ const TodoItemss = ({ todo }) => {
     if(!isEditing){
       setOriginalTitle(originalTitle)
     }
+    // location.reload();
     setIsEditing(false)
     console.log('cancelling edit')
   }
@@ -156,13 +157,13 @@ const TodoItemss = ({ todo }) => {
                                 width: '100%',
                               },
                             }}
-                              autoComplete='off'
-                              name='todo'
-                              fontSize='20px'
+                            autoComplete='off'
+                            name='todo'
+                            fontSize='20px'
                             type='standard'
                             id='todo-edit'
                             value={newTitle}
-                            onChange={(e) => setNewTitle(e.target.value)}
+                            onChange={(e) => setNewTitle(e.target.value.toUpperCase())}
                             autoFocus
                             // onBlur={handleBlur}
                           />
