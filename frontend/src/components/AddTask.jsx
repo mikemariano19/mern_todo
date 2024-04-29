@@ -56,6 +56,7 @@ const input = () => {
                   label="ADD TASK"
                   type="text"
                   variant="standard"
+                  inputProps={{maxLength: 19}}
                   sx={{
                     width: "98%",
                     height: "100%"

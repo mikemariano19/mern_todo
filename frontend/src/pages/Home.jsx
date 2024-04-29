@@ -8,7 +8,7 @@ import TodoItems from '../components/TodoItems'
 import AddTask from '../components/AddTask'
 import { Box } from '@mui/material'
 
-const Home = ({ todo }) => {
+const Home = () => {
     const { todos, dispatch } = useTodosContext()
 
     useEffect(() => {

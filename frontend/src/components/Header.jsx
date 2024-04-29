@@ -4,6 +4,7 @@ import styled from 'styled-components'
 const H1 = styled.h1`
 font-size: 2em;
 text-align: center;
+letter-spacing: 15px;
 `
 
 const Header = () => {
@@ -11,7 +12,7 @@ const Header = () => {
 
   return (
     <H1>
-        Todo-List
+        TODO LIST
     </H1>
   )
 }

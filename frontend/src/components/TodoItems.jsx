@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import { useTodosContext } from '../hooks/useTodosContext'
@@ -7,7 +7,7 @@ import { useTodosContext } from '../hooks/useTodosContext'
 // mui component
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
-import { Typography, IconButton, TextField, Button, FormControl, FormLabel, FormHelperText } from '@mui/material';
+import { Typography, IconButton, TextField, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box } from '@mui/system';
@@ -26,7 +26,7 @@ const TodoItemss = ({ todo }) => {
   const [isChecked, setIsChecked] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [newTitle, setNewTitle] = useState(todo.title)
-  const [toggled, setToggled] = useState(false)
+  const [isDelete, setIsDelete] = useState(false)
   const [originalTitle, setOriginalTitle] = useState(todo.title)
 
   const handleChange = () => {
@@ -34,12 +34,10 @@ const TodoItemss = ({ todo }) => {
   }
 
   const toggleEdit = (todo) => {
-    setIsEditing((prevIsEditing) => !prevIsEditing)
-    setToggled(!toggled)
-    if(!isEditing ) {
+    if(isEditing ) {
       setOriginalTitle(todo.title)
     }
-    console.log('onToggleEdit in TodoItems')
+    setIsEditing((prevIsEditing) => !prevIsEditing)
   }
 
 // handle update
@@ -48,12 +46,31 @@ const TodoItemss = ({ todo }) => {
       const response = await axios.patch('http://localhost:4001/api/todos/' + todo._id, 
         { title: newTitle } 
       )
-        dispatch({ type: 'UPDATE_TODO', payload: response.data })
+       await dispatch({ type: 'UPDATE_TODO', payload: response.data })
         location.reload();
         console.log('Updated!')
     } catch (error) {
       console.log('Error updating data:', error)
     }
+  }
+
+  // handle cancel edit
+    const handleCancelEdit = () => {
+      if(isEditing){
+        setOriginalTitle(originalTitle)
+        location.reload();
+      }
+      setIsEditing(false)
+    }
+
+  // delete message
+  const  handleDeleteMessage =  () => {
+    setIsDelete(true)
+  }
+
+  // Cancel in Delete mode
+  const handleCancelDelete = () => {
+    setIsDelete(false)
   }
   
   // handle delete
@@ -68,34 +85,6 @@ const TodoItemss = ({ todo }) => {
     }
   }
 
-// handle cancel edit
-  const handleCancelEdit = () => {
-    if(!isEditing){
-      setOriginalTitle(originalTitle)
-    }
-    // location.reload();
-    setIsEditing(false)
-    console.log('cancelling edit')
-  }
-// handle onblur
-  const handleBlur = async () => {
-    try {
-      if (newTitle !== todo.title) {
-        const isConfirmed = window.confirm(`Do you want to save the changes of "${todo.title}" to "${newTitle}"?`);
-        if (isConfirmed) {
-          await handleUpdate();
-          location.reload();
-        } else {
-          handleCancelEdit();
-          setIsEditing(isEditing);
-          location.reload();
-        }
-      }
-    } catch (error) {
-      console.log('Error updating data:', error);
-      setIsEditing(false); // Exit edit mode on error
-    }
-  };
 
   return (
       <Box>
@@ -122,7 +111,7 @@ const TodoItemss = ({ todo }) => {
                   <BorderColorIcon sx={{fontSize: 32, color: '#1976D2'}} />
               </IconButton>
               {/* delete button */}
-              <IconButton onClick={handleDelete}>
+              <IconButton onClick={handleDeleteMessage}>
                   <DeleteIcon sx={{fontSize: 32, color: '#F34542'}}/>
               </IconButton>
               </Box>
@@ -147,28 +136,25 @@ const TodoItemss = ({ todo }) => {
                     }}>
                 <Box sx={{backgroundColor: '#E6EBF4', padding: '15px', py: '30px', borderRadius: '10px'}}>
                   <Box>
-                      <CheckboxLine isChecked={isChecked}>
-                          <form onSubmit={handleUpdate}>
-                            <TextField sx={{
-                              '& .MuiInputBase-input': {
-                                color: '',
-                                borderRadius: '5px',
-                                fontSize: '20px',
-                                width: '100%',
-                              },
-                            }}
-                            autoComplete='off'
-                            name='todo'
-                            fontSize='20px'
-                            type='standard'
-                            id='todo-edit'
-                            value={newTitle}
-                            onChange={(e) => setNewTitle(e.target.value.toUpperCase())}
-                            autoFocus
-                            // onBlur={handleBlur}
-                          />
-                        </form>
-                    </CheckboxLine>
+                      <form onSubmit={handleUpdate}>
+                        <TextField sx={{
+                          '& .MuiInputBase-input': {
+                            color: '',
+                            borderRadius: '5px',
+                            fontSize: '20px',
+                          },
+                        }}
+                        autoComplete='off'
+                        name='todo'
+                        fontSize='20px'
+                        type='standard'
+                        id='todo-edit'
+                        value={newTitle}
+                        onChange={(e) => setNewTitle(e.target.value.toUpperCase())}
+                        autoFocus
+                        inputProps={{maxLength: 19}}
+                      />
+                      </form>
                   {/* date */}
                   <Typography sx={{fontSize: 12, color: 'text.secondary'}}>
                     {formatDistanceToNow(new Date(todo.createdAt), { addSuffix: true })}
@@ -190,6 +176,48 @@ const TodoItemss = ({ todo }) => {
                   </Box>
                 </Box>
               </Box>
+          )}
+          {isDelete && (
+            <Box zIndex={5} 
+            sx={{
+              display: 'grid',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              padding: 'auto',
+              borderRadius: '5px',
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              width: '100vw',
+              height: '100vh',
+              }}>
+          <Box sx={{backgroundColor: '#E6EBF4', px: '15px', py: '15px', borderRadius: '10px'}}>
+            <Box sx={{color: 'text.primary'}}>
+                <Box sx={{color: 'text.secondary'}}>
+                  <Box sx={{display: 'flex', justifyContent: 'center'}}><h3>{todo.title}</h3></Box> 
+                  <span>Are you sure you want to delete this in the list?</span>
+                </Box>
+            {/* date */}
+          </Box>
+            <Box>
+              {/* delete button */}
+              <Box>
+                <Button onClick={handleDelete} variant="outlined" color="error" sx={{width: '100%', mt: '15px'}}>
+                  Delete
+                </Button>
+              </Box>
+              {/* edit button */}
+              <Box>
+                <Button onClick={handleCancelDelete} variant="contained" sx={{width: '100%', mt: '5px'}}>
+                  Cancel
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
           )}
       </Box>
   )
