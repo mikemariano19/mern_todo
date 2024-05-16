@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const H1 = styled.h1`
 font-size: 2em;
 text-align: center;
-letter-spacing: 15px;
+letter-spacing: 10px;
 `
 
 const Header = () => {

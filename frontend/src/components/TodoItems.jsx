@@ -198,7 +198,7 @@ const TodoItemss = ({ todo }) => {
             <Box sx={{color: 'text.primary'}}>
                 <Box sx={{color: 'text.secondary'}}>
                   <Box sx={{display: 'flex', justifyContent: 'center'}}><h3>{todo.title}</h3></Box> 
-                  <span>Are you sure you want to delete this in the list?</span>
+                  <span style={{fontFamily: 'monospace', fontSize: 14, fontWeight: 500}}>Are you sure you want to delete this in the list?</span>
                 </Box>
             {/* date */}
           </Box>
