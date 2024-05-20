@@ -21,6 +21,10 @@ app.use((req, res, next) =>{
     next();
 })
 
+app.get('/', (req, res) => {
+    res.json({mssg: 'Welcome to the app'})
+})
+
 // routes
 app.use('/api/todos', todoRoutes)
 
@@ -34,3 +38,7 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((err) => {
         console.log(err)
     })
+
+    // app.listen(process.env.PORT, () => {
+    //     console.log('listening on port', process.env.PORT)
+    //   })
