@@ -21,9 +21,11 @@ app.use((req, res, next) =>{
     next();
 })
 
-app.get('/', (req, res) => {
-    res.json({mssg: 'Welcome to the app'})
-})
+// app.get('/', (req, res) => {
+//     res.json({mssg: 'Welcome to the app'})
+// })
+
+app.get('/', (req, res) => res.status(200).json({mssg: 'Welcome to the app'}))
 
 // routes
 app.use('/api/todos', todoRoutes)
