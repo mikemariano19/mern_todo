@@ -8,7 +8,7 @@
     ],
     "routes": [
       { "src": "/static/(.*)", "headers": { "cache-control": "s-maxage=31536000, immutable" } },
-      { "src": "/favicon.ico", "dest": "/favicon.ico" },
+      { "src": "/(.*)", "dest": "/backend/server.js" },
       { "src": "/(.*)", "dest": "/index.html" }
     ]
   }
