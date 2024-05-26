@@ -43,7 +43,7 @@ const TodoItemss = ({ todo }) => {
 // handle update
   const handleUpdate = async () => {
     try{
-      const response = await axios.patch('http://localhost:4001/api/todos/' + todo._id, 
+      const response = await axios.patch('https://mern-todo-backend-dun.vercel.app/' + todo._id, 
         { title: newTitle } 
       )
        await dispatch({ type: 'UPDATE_TODO', payload: response.data })
@@ -76,7 +76,7 @@ const TodoItemss = ({ todo }) => {
   // handle delete
   const handleDelete = async () => {
     try {
-      const response = await axios.delete('http://localhost:4001/api/todos/' + todo._id)
+      const response = await axios.delete('https://mern-todo-backend-dun.vercel.app/' + todo._id)
       if(response.status === 200) {
         dispatch({ type: 'DELETE_TODO', payload: response.data })
       }

@@ -26,7 +26,7 @@ const input = () => {
     let response
   
     try{
-      response = await axios.post('http://localhost:4001/api/todos/', todo, {
+      response = await axios.post('https://mern-todo-backend-dun.vercel.app/', todo, {
         headers: {
           'Content-Type': 'application/json'
         }
