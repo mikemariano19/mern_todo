@@ -12,6 +12,9 @@ import { useTodosContext } from '../hooks/useTodosContext'
 
 
 
+const apiUrl = process.env.REACT_APP_API_URL
+
+console.log(apiUrl)
 
 const input = () => {
   const { dispatch } = useTodosContext()
@@ -26,7 +29,7 @@ const input = () => {
     let response
   
     try{
-      response = await axios.post(REACT_APP_API_URL, todo, {
+      response = await axios.post(apiUrl, todo, {
         headers: {
           'Content-Type': 'application/json'
         }
