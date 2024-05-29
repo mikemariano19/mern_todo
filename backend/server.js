@@ -1,4 +1,4 @@
-require('dotenv').config()
+// require('dotenv').config()
 
 const express = require('express')
 const cors = require('cors')
@@ -33,7 +33,7 @@ app.use('/api/todos', todoRoutes)
 // connect to db
 mongoose.connect(MONGO_URI)
     .then(()=> {
-        app.listen(process.env.PORT, () => {
+        app.listen(PORT, () => {
             console.log('connected to db & listening on port ', process.env.PORT)
         })
     })
