@@ -21,15 +21,15 @@ const CheckboxLine = ({ isChecked, children }) => (
   </span>
 )
 
+const apiUrl = process.env.REACT_APP_API_URL
 
 const TodoItemss = ({ todo }) => {
   const { dispatch } = useTodosContext();
   const [isChecked, setIsChecked] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
   const [newTitle, setNewTitle] = useState(todo.title)
+  const [isEditing, setIsEditing] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
   const [originalTitle, setOriginalTitle] = useState(todo.title)
-  const apiUrl = process.env.REACT_APP_API_URL
 
   const handleChange = () => {
     setIsChecked(!isChecked)
