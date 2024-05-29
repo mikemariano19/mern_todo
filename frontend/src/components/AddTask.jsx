@@ -13,7 +13,7 @@ import { useTodosContext } from '../hooks/useTodosContext'
 
 
 
-console.log(apiUrl)
+
 
 const input = () => {
   const { dispatch } = useTodosContext()
