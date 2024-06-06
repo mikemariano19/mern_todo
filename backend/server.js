@@ -31,7 +31,7 @@ app.get('/', (req, res) => res.status(200).json({mssg: 'Welcome to the app'}))
 app.use('/api/todos', todoRoutes)
 
 // connect to db
-mongoose.connect(MONGO_URI)
+mongoose.connect('mongodb+srv://mernapp:mernapp1@mernapp.8g2mof1.mongodb.net/')
     .then(()=> {
         app.listen(PORT, () => {
             console.log('connected to db & listening on port ', PORT)
