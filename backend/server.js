@@ -32,9 +32,9 @@ app.use('/api/todos', todoRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
-    .then(process.env.PORT,()=> {
+    .then(()=> {
         app.listen(() => {
-            console.log('connected to db & listening on port ' + process.env.PORT)
+            console.log('connected to db & listening on port ')
         })
     })
     .catch((err) => {
