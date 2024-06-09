@@ -45,7 +45,7 @@ const TodoItemss = ({ todo }) => {
 // handle update
   const handleUpdate = async () => {
     try{
-      const response = await axios.patch(REACT_APP_API_URL + todo._id, 
+      const response = await axios.patch(process.env.REACT_APP_API_URL + todo._id, 
         { title: newTitle } 
       )
        await dispatch({ type: 'UPDATE_TODO', payload: response.data })
@@ -78,7 +78,7 @@ const TodoItemss = ({ todo }) => {
   // handle delete
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(REACT_APP_API_URL + todo._id)
+      const response = await axios.delete(process.env.REACT_APP_API_URL + todo._id)
       if(response.status === 200) {
         dispatch({ type: 'DELETE_TODO', payload: response.data })
       }

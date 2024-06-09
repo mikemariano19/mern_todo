@@ -28,7 +28,7 @@ const input = () => {
     let response
   
     try{
-      response = await axios.post(REACT_APP_API_URL, todo, {
+      response = await axios.post(process.env.REACT_APP_API_URL, todo, {
         headers: {
           'Content-Type': 'application/json'
         }
