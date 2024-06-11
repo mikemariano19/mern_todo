@@ -1,4 +1,4 @@
-// require('dotenv').config()
+require('dotenv').config()
 
 const express = require('express')
 const cors = require('cors')
@@ -21,9 +21,6 @@ app.use((req, res, next) =>{
     next();
 })
 
-// app.get('/', (req, res) => {
-//     res.json({mssg: 'Welcome to the app'})
-// })
 
 app.get('/', (req, res) => res.status(200).json({mssg: 'Welcome to the app'}))
 
@@ -33,8 +30,8 @@ app.use('/api/todos', todoRoutes)
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
     .then(()=> {
-        app.listen(() => {
-            console.log('connected to db & listening on port ')
+        app.listen(process.env.PORT, () => {
+            console.log('connected to db & listening on port', process.env.PORT)
         })
     })
     .catch((err) => {
