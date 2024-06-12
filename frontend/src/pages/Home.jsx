@@ -1,3 +1,4 @@
+require('dotenv').config()
 import React, { useEffect } from 'react'
 import { useTodosContext } from '../hooks/useTodosContext'
 import axios from 'axios'
