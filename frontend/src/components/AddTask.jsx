@@ -12,7 +12,7 @@ import { useTodosContext } from '../hooks/useTodosContext'
 
 
 
-
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
 const input = () => {
@@ -28,7 +28,7 @@ const input = () => {
     let response
   
     try{
-      response = await axios.post(process.env.REACT_APP_API_URL, todo, {
+      response = await axios.post(apiUrl, todo, {
         headers: {
           'Content-Type': 'application/json'
         }

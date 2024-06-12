@@ -1,4 +1,3 @@
-require('dotenv').config()
 import React, { useEffect } from 'react'
 import { useTodosContext } from '../hooks/useTodosContext'
 import axios from 'axios'
@@ -9,13 +8,15 @@ import TodoItems from '../components/TodoItems'
 import AddTask from '../components/AddTask'
 import { Box } from '@mui/material'
 
+const apiUrl = import.meta.env.VITE_API_URL; 
+
 const Home = () => {
     const { todos, dispatch } = useTodosContext()
 
     useEffect(() => {
         const fetchTodos = async () => {
             try {
-                const response = await axios.get(process.env.REACT_APP_API_URL)
+                const response = await axios.get(apiUrl)
                 console.log(response.data)
                 if(response.status === 200) {
                     dispatch({type: 'SET_TODOS', payload: response.data})
