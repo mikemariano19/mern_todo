@@ -8,11 +8,12 @@ import TodoItems from '../components/TodoItems'
 import AddTask from '../components/AddTask'
 import { Box } from '@mui/material'
 
-const apiUrl = import.meta.env.VITE_API_URL; 
 
 const Home = () => {
     const { todos, dispatch } = useTodosContext()
-
+    
+    const apiUrl = import.meta.env.VITE_API_URL; 
+    
     useEffect(() => {
         const fetchTodos = async () => {
             try {

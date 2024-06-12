@@ -21,7 +21,6 @@ const CheckboxLine = ({ isChecked, children }) => (
   </span>
 )
 
-const apiUrl = import.meta.env.VITE_API_URL;
 
 const TodoItemss = ({ todo }) => {
   const { dispatch } = useTodosContext();
@@ -30,7 +29,9 @@ const TodoItemss = ({ todo }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
   const [originalTitle, setOriginalTitle] = useState(todo.title)
-
+  
+  const apiUrl = import.meta.env.VITE_API_URL;
+  
   const handleChange = () => {
     setIsChecked(!isChecked)
   }
