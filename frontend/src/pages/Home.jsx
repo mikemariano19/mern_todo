@@ -17,18 +17,18 @@ const Home = () => {
     useEffect(() => {
         const fetchTodos = async () => {
             try {
-                const response = await axios.get(apiUrl)
+                const response = await axios.get(apiUrl + todos);
                 console.log(response.data)
                 if(response.status === 200) {
                     dispatch({type: 'SET_TODOS', payload: response.data})
                 }
             } catch (error) {
                 console.error('Error fetching data',error)
-            }dddw
+            }
         }
 
         fetchTodos()
-    }, [apiUrl, dispatch])
+    }, [dispatch])
 
   return (
     <Box>
