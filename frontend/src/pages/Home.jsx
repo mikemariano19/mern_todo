@@ -12,9 +12,9 @@ import { Box } from '@mui/material'
 const Home = () => {
     const { todos, dispatch } = useTodosContext()
     
-    const apiUrl = import.meta.env.VITE_API_URL; 
-
+    
     useEffect(() => {
+        const apiUrl = import.meta.env.VITE_API_URL; 
         const fetchTodos = async () => {
             try {
                 const response = await axios.get(apiUrl + todos);
