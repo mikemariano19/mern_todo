@@ -8,16 +8,15 @@ import TodoItems from '../components/TodoItems'
 import AddTask from '../components/AddTask'
 import { Box } from '@mui/material'
 
+const apiUrl = import.meta.env.VITE_API_URL; 
 
 const Home = () => {
     const { todos, dispatch } = useTodosContext()
     
-    
     useEffect(() => {
-        const apiUrl = import.meta.env.VITE_API_URL; 
         const fetchTodos = async () => {
             try {
-                const response = await axios.get(apiUrl + todos);
+                const response = await axios.get(`${apiUrl}todos`);
                 console.log(response.data)
                 if(response.status === 200) {
                     dispatch({type: 'SET_TODOS', payload: response.data})
@@ -28,18 +27,18 @@ const Home = () => {
         }
 
         fetchTodos()
-    }, [dispatch])
+    }, [apiUrl, dispatch])
 
   return (
     <Box>
         <Box>
             <AddTask/>
         </Box>
-            <Box>
-                {Array.isArray(todos) && todos.map((todo) => (
-                    <TodoItems key={todo._id} todo={todo} />
-                ))}
-            </Box>
+        <Box>
+            {Array.isArray(todos) && todos.map((todo) => (
+                <TodoItems key={todo._id} todo={todo} />
+            ))}
+        </Box>
     </Box>
   )
 }
