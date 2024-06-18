@@ -15,6 +15,7 @@ const Home = () => {
     
     useEffect(() => {
         const fetchTodos = async () => {
+            console.log('Fetching', apiUrl);
             try {
                 const response = await axios.get(`${apiUrl}todos`);
                 console.log(response.data)
@@ -44,3 +45,4 @@ const Home = () => {
 }
 
 export default Home
+
