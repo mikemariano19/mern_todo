@@ -29,7 +29,7 @@ const input = () => {
     let response
   
     try{
-      response = await axios.post(apiUrl + todo, {
+      response = await axios.post(`${apiUrl}todo`, {
         headers: {
           'Content-Type': 'application/json'
         }
