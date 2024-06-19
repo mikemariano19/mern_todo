@@ -13,13 +13,13 @@ import { useTodosContext } from '../hooks/useTodosContext'
 
 
 
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const input = () => {
   const { dispatch } = useTodosContext()
   const [ title, setTitle ] = useState('')
   const [ isError, setIsError ] = useState(null)
   
-  const apiUrl = import.meta.env.VITE_API_URL;
   
   const handleSubmit = async (e) => {
     e.preventDefault()
