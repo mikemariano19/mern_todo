@@ -46,7 +46,7 @@ const TodoItemss = ({ todo }) => {
 // handle update
   const handleUpdate = async () => {
     try{
-      const response = await axios.patch(`${apiUrl}todos/todo._id`, 
+      const response = await axios.patch(apiUrl + todo._id, 
         { title: newTitle } 
       )
        await dispatch({ type: 'UPDATE_TODO', payload: response.data })
@@ -79,7 +79,7 @@ const TodoItemss = ({ todo }) => {
   // handle delete
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`${apiUrl}todos/todo._id`)
+      const response = await axios.delete(apiUrl + todo._id)
       if(response.status === 200) {
         dispatch({ type: 'DELETE_TODO', payload: response.data })
       }

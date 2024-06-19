@@ -16,7 +16,7 @@ const Home = () => {
     useEffect(() => {
         const fetchTodos = async () => {
             try {
-                const response = await axios.get(`${apiUrl}todos`);
+                const response = await axios.get(apiUrl);
                 console.log(response.data)
                 if(response.status === 200) {
                     dispatch({type: 'SET_TODOS', payload: response.data})
