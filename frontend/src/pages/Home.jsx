@@ -25,7 +25,6 @@ const Home = () => {
                 console.error('Error fetching data',error)
             }
         }
-
         fetchTodos()
     }, [apiUrl, dispatch])
 
