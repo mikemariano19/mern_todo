@@ -57,6 +57,12 @@ const TodoItemss = ({ todo }) => {
     }
   }
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleUpdate();
+    }
+  }
+
   // handle cancel edit
     const handleCancelEdit = () => {
       if(isEditing){
@@ -156,6 +162,7 @@ const TodoItemss = ({ todo }) => {
                         onChange={(e) => setNewTitle(e.target.value.toUpperCase())}
                         autoFocus
                         inputProps={{maxLength: 19}}
+                        onKeyDown={handleKeyDown}
                       />
                       </form>
                   {/* date */}
